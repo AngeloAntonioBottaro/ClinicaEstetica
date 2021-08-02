@@ -1,0 +1,21 @@
+object FrmBase: TFrmBase
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'FrmBase'
+  ClientHeight = 406
+  ClientWidth = 568
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poScreenCenter
+  ShowHint = True
+  OnKeyPress = FormKeyPress
+  PixelsPerInch = 96
+  TextHeight = 13
+end

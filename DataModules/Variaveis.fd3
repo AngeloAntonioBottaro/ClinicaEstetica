@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<variables>
+  <item Name=" Datas"/>
+  <item Name="DataInicial"/>
+  <item Name="DataFinal"/>
+  <item Name=" Totalizadores"/>
+  <item Name="TotalRegistros"/>
+  <item Name="ValorTotal"/>
+  <item Name="ValorTotalDebito"/>
+  <item Name="ValorTotalCredito"/>
+  <item Name=" Diversos"/>
+  <item Name="TipoPesquisa"/>
+  <item Name="OrdemPesquisa"/>
+  <item Name="Status"/>
+  <item Name="Idade"/>
+</variables>

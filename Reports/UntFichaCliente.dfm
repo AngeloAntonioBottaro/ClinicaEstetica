@@ -1,0 +1,115 @@
+inherited FrmFichaCliente: TFrmFichaCliente
+  Caption = 'Ficha Cliente'
+  ClientHeight = 133
+  ClientWidth = 456
+  OnShow = FormShow
+  ExplicitWidth = 462
+  ExplicitHeight = 162
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 450
+    Height = 68
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = -91
+    ExplicitTop = -69
+    ExplicitWidth = 470
+    ExplicitHeight = 247
+    object Label4: TLabel
+      AlignWithMargins = True
+      Left = 16
+      Top = 16
+      Width = 53
+      Height = 16
+      Caption = 'Cliente.:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelNomeCliente: TLabel
+      AlignWithMargins = True
+      Left = 172
+      Top = 16
+      Width = 102
+      Height = 16
+      Caption = 'LabelNomeCliente'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object ButtonConsultaCliente: TButton
+      AlignWithMargins = True
+      Left = 131
+      Top = 13
+      Width = 30
+      Height = 25
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ImageAlignment = iaCenter
+      ImageIndex = 12
+      Images = FrmComponentes.ImageListButtons
+      ParentFont = False
+      TabOrder = 0
+      OnClick = ButtonConsultaClienteClick
+    end
+    object EditCodigoCliente: TEdit
+      AlignWithMargins = True
+      Left = 75
+      Top = 13
+      Width = 50
+      Height = 24
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 1
+      OnExit = EditCodigoClienteExit
+    end
+  end
+  object GroupBox2: TGroupBox
+    AlignWithMargins = True
+    Left = 3
+    Top = 77
+    Width = 450
+    Height = 53
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = -91
+    ExplicitTop = 125
+    ExplicitWidth = 470
+    object ButtonGerarRelatorio: TButton
+      AlignWithMargins = True
+      Left = 304
+      Top = 15
+      Width = 139
+      Height = 30
+      Margins.Left = 5
+      Margins.Top = 0
+      Margins.Right = 5
+      Margins.Bottom = 6
+      Align = alRight
+      Caption = 'Imprimir Ficha Cliente'
+      ImageIndex = 14
+      Images = FrmComponentes.ImageListButtons
+      TabOrder = 0
+      OnClick = ButtonGerarRelatorioClick
+    end
+  end
+end
