@@ -524,7 +524,7 @@ begin
       // Faz a liberaçao do sistema
       ValidarLiberacao;
 
-      // Verificar  Mensagem
+      // Verificar Mensagem
       VerificarMensagem;
 
       // Arrumar parametro para nao abrir com a liberaçao Geral
@@ -545,9 +545,7 @@ begin
       // Arrumar o Caption da tela
       FrmMain.Caption := DM.FDQParametros.FieldByName('NOMEEMPRESA').AsString;
 
-      { Colocar Para Abrir Login Aqui Caso Necessario }
       Login;
-
     finally
 
     end;
@@ -580,96 +578,78 @@ begin
   try
     try
       // ***** Acesso Rapido
-      ButtonAgenda.Visible := DM.FDMTUsuario.fieldbyname('TELAAGENDA').AsBoolean;
+      ButtonAgenda.Visible   := DM.FDMTUsuario.fieldbyname('TELAAGENDA').AsBoolean;
       ButtonServicos.Visible := DM.FDMTUsuario.fieldbyname('TELASERVICO').AsBoolean;
-      ButtonVenda.Visible := DM.FDMTUsuario.fieldbyname('TELAVENDA').AsBoolean;
-      ButtonEstoque.Visible := DM.FDMTUsuario.fieldbyname('TELAENTRADAESTOQUE').AsBoolean;
+      ButtonVenda.Visible    := DM.FDMTUsuario.fieldbyname('TELAVENDA').AsBoolean;
+      ButtonEstoque.Visible  := DM.FDMTUsuario.fieldbyname('TELAENTRADAESTOQUE').AsBoolean;
 
       // ***** Menu cadastro
-      N1CadastrosCliente.Visible := DM.FDMTUsuario.fieldbyname('CADASTROCLIENTE').AsBoolean;
-      N2CadastrosProdutos.Visible := DM.FDMTUsuario.fieldbyname('CADASTROPRODUTO').AsBoolean;
-      N3CadastrosGrupo.Visible := DM.FDMTUsuario.fieldbyname('CADASTROGRUPO').AsBoolean;
-      N4CadastrosSubGrupo.Visible := DM.FDMTUsuario.fieldbyname('CADASTROSUBGRUPO').AsBoolean;
+      N1CadastrosCliente.Visible        := DM.FDMTUsuario.fieldbyname('CADASTROCLIENTE').AsBoolean;
+      N2CadastrosProdutos.Visible       := DM.FDMTUsuario.fieldbyname('CADASTROPRODUTO').AsBoolean;
+      N3CadastrosGrupo.Visible          := DM.FDMTUsuario.fieldbyname('CADASTROGRUPO').AsBoolean;
+      N4CadastrosSubGrupo.Visible       := DM.FDMTUsuario.fieldbyname('CADASTROSUBGRUPO').AsBoolean;
       N5CadastrosFormaPagamento.Visible := DM.FDMTUsuario.fieldbyname('CADASTROFORMAPAGTO').AsBoolean;
-      N6CadastrosFornecedor.Visible := DM.FDMTUsuario.fieldbyname('CADASTROFORNECEDOR').AsBoolean;
-      N7CadastrosFuncionarios.Visible := DM.FDMTUsuario.fieldbyname('CADASTROFUNCIONARIO').AsBoolean;
-      N8CadastrosCidade.Visible := DM.FDMTUsuario.fieldbyname('CADASTROCIDADE').AsBoolean;
+      N6CadastrosFornecedor.Visible     := DM.FDMTUsuario.fieldbyname('CADASTROFORNECEDOR').AsBoolean;
+      N7CadastrosFuncionarios.Visible   := DM.FDMTUsuario.fieldbyname('CADASTROFUNCIONARIO').AsBoolean;
+      N8CadastrosCidade.Visible         := DM.FDMTUsuario.fieldbyname('CADASTROCIDADE').AsBoolean;
 
       // ***** Menu movimentacao
 
       // * Contas A Receber
-      N111LancarContaReceber.Visible := DM.FDMTUsuario.fieldbyname('LANCARCONTARECEBER').AsBoolean;
-      N112Recebimento.Visible := DM.FDMTUsuario.fieldbyname('RECEBIMENTO').AsBoolean;
+      N111LancarContaReceber.Visible    := DM.FDMTUsuario.fieldbyname('LANCARCONTARECEBER').AsBoolean;
+      N112Recebimento.Visible           := DM.FDMTUsuario.fieldbyname('RECEBIMENTO').AsBoolean;
       N113ConsultarContaReceber.Visible := DM.FDMTUsuario.fieldbyname('CONSULTARCONTARECEBER').AsBoolean;
 
       // 1.1- Contas A Receber
-      if (N111LancarContaReceber.Visible) or (N112Recebimento.Visible) or (N113ConsultarContaReceber.Visible) then
-        N11ContasAReceber.Visible := True
-      else
-        N11ContasAReceber.Visible := False;
+      N11ContasAReceber.Visible := (N111LancarContaReceber.Visible)or(N112Recebimento.Visible)or(N113ConsultarContaReceber.Visible);
 
       // * Conta Recebida
-      N121LancarContaRecebida.Visible := DM.FDMTUsuario.fieldbyname('LANCARCONTARECEBIDA').AsBoolean;
+      N121LancarContaRecebida.Visible   := DM.FDMTUsuario.fieldbyname('LANCARCONTARECEBIDA').AsBoolean;
       N122EstornarContaRecebida.Visible := DM.FDMTUsuario.fieldbyname('ESTORNARCONTARECEBIDA').AsBoolean;
       N123ConsultacontaRecebida.Visible := DM.FDMTUsuario.fieldbyname('CONSULTARCONTARECEBIDA').AsBoolean;
 
       // 1.2- Conta Recebida
-      if (N121LancarContaRecebida.Visible) or (N122EstornarContaRecebida.Visible) or (N123ConsultacontaRecebida.Visible) then
-        N12ContaRecebida.Visible := True
-      else
-        N12ContaRecebida.Visible := False;
+      N12ContaRecebida.Visible := (N121LancarContaRecebida.Visible)or(N122EstornarContaRecebida.Visible)or(N123ConsultacontaRecebida.Visible);
 
       // * Conta Pagar
       N131LanamentoContaPagar.Visible := DM.FDMTUsuario.fieldbyname('LANCARCONTAPAGAR').AsBoolean;
-      N132Pagamento.Visible := DM.FDMTUsuario.fieldbyname('PAGAMENTO').AsBoolean;
+      N132Pagamento.Visible           := DM.FDMTUsuario.fieldbyname('PAGAMENTO').AsBoolean;
       N133ConsultaContasPagar.Visible := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGAR').AsBoolean;
 
       // 1.3- Conta a Pagar
-      if (N131LanamentoContaPagar.Visible) or (N132Pagamento.Visible) or (N133ConsultaContasPagar.Visible) then
-        N13ContasAPagar.Visible := True
-      else
-        N13ContasAPagar.Visible := False;
+      N13ContasAPagar.Visible := (N131LanamentoContaPagar.Visible)or(N132Pagamento.Visible)or(N133ConsultaContasPagar.Visible);
 
       // * Contas Pagas
-      N141LanarContaPaga.Visible := DM.FDMTUsuario.fieldbyname('LANCARCONTAPAGA').AsBoolean;
-      N142EstornarContaPaga.Visible := DM.FDMTUsuario.fieldbyname('ESTORNARCONTAPAGA').AsBoolean;
+      N141LanarContaPaga.Visible     := DM.FDMTUsuario.fieldbyname('LANCARCONTAPAGA').AsBoolean;
+      N142EstornarContaPaga.Visible  := DM.FDMTUsuario.fieldbyname('ESTORNARCONTAPAGA').AsBoolean;
       N143ConsultarContaPaga.Visible := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGA').AsBoolean;
 
       // 1.4- Contas Pagas
-      if (N141LanarContaPaga.Visible) or (N142EstornarContaPaga.Visible) or (N143ConsultarContaPaga.Visible) then
-        N14ContasPagas.Visible := True
-      else
-        N14ContasPagas.Visible := False;
+      N14ContasPagas.Visible := (N141LanarContaPaga.Visible)or(N142EstornarContaPaga.Visible)or(N143ConsultarContaPaga.Visible);
 
       // 1- Financeiro
-      if (N11ContasAReceber.Visible) or (N12ContaRecebida.Visible) or (N13ContasAPagar.Visible) or (N14ContasPagas.Visible) then
-        N1Financeiro.Visible := True
-      else
-        N1Financeiro.Visible := False;
+      N1Financeiro.Visible := (N11ContasAReceber.Visible)or(N12ContaRecebida.Visible)or(N13ContasAPagar.Visible)or(N14ContasPagas.Visible);
 
       // Caixa
-      N21CaixaDiario.Visible := DM.FDMTUsuario.fieldbyname('CAIXADIARIO').AsBoolean;
+      N21CaixaDiario.Visible     := DM.FDMTUsuario.fieldbyname('CAIXADIARIO').AsBoolean;
       N22LancamentoCaixa.Visible := DM.FDMTUsuario.fieldbyname('LANCAMENTOCAIXA').AsBoolean;
-      N23Historico.Visible := DM.FDMTUsuario.fieldbyname('CADASTROHISTOCAIXA').AsBoolean;
+      N23Historico.Visible       := DM.FDMTUsuario.fieldbyname('CADASTROHISTOCAIXA').AsBoolean;
 
       // 2- Caixa
-      if (N21CaixaDiario.Visible) or (N22LancamentoCaixa.Visible) or (N23Historico.Visible) then
-        N2Caixa.Visible := True
-      else
-        N2Caixa.Visible := False;
+      N2Caixa.Visible := (N21CaixaDiario.Visible)or(N22LancamentoCaixa.Visible)or(N23Historico.Visible);
 
       // Menu relatorios
       N11RelatorioCadastroCliente.Visible := DM.FDMTUsuario.fieldbyname('CADASTROCLIENTE').AsBoolean;
       N12RelatorioCadastroProduto.Visible := DM.FDMTUsuario.fieldbyname('CADASTROPRODUTO').AsBoolean;
-      N21RelatorioContasAReceber.Visible := DM.FDMTUsuario.fieldbyname('CONSULTARCONTARECEBER').AsBoolean;
+      N21RelatorioContasAReceber.Visible  := DM.FDMTUsuario.fieldbyname('CONSULTARCONTARECEBER').AsBoolean;
       N22RelatorioContasRecebidas.Visible := DM.FDMTUsuario.fieldbyname('CONSULTARCONTARECEBIDA').AsBoolean;
-      N23RelatorioContasAPagar.Visible := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGAR').AsBoolean;
-      N24RelatorioContasPagas.Visible := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGA').AsBoolean;
-      N25RelatorioContasExcluidas.Visible := True;
-      N3RelatorioCaixa.Visible := DM.FDMTUsuario.fieldbyname('CAIXADIARIO').AsBoolean;
-      N4RelatorioServicos.Visible := DM.FDMTUsuario.fieldbyname('TELASERVICO').AsBoolean;
-      N5RelatorioVendas.Visible := DM.FDMTUsuario.fieldbyname('TELAVENDA').AsBoolean;
-      N6RelatorioEstoque.Visible := DM.FDMTUsuario.fieldbyname('TELAENTRADAESTOQUE').AsBoolean;
+      N23RelatorioContasAPagar.Visible    := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGAR').AsBoolean;
+      N24RelatorioContasPagas.Visible     := DM.FDMTUsuario.fieldbyname('CONSULTACONTAPAGA').AsBoolean;
+      N25RelatorioContasExcluidas.Visible := N21RelatorioContasAReceber.Visible or N23RelatorioContasAPagar.Visible;
+      N3RelatorioCaixa.Visible            := DM.FDMTUsuario.fieldbyname('CAIXADIARIO').AsBoolean;
+      N4RelatorioServicos.Visible         := DM.FDMTUsuario.fieldbyname('TELASERVICO').AsBoolean;
+      N5RelatorioVendas.Visible           := DM.FDMTUsuario.fieldbyname('TELAVENDA').AsBoolean;
+      N6RelatorioEstoque.Visible          := DM.FDMTUsuario.fieldbyname('TELAENTRADAESTOQUE').AsBoolean;
     finally
 
     end;
@@ -683,18 +663,14 @@ begin
   try
     try
       StatusBar.Panels[4].Text := 'Usuario.: ';
-      FrmLogin.ShowModal;
 
       // Se estiver logado vai liberar os menus senao vai fechar o programa
-      if StrToBool(FrmLogin.LabelLogin.Caption) then
-      begin
-        LiberarMenus;
-        StatusBar.Panels[4].Text := 'Usuario.: ' + DM.FDMTUsuario.FieldByName('LOGIN').AsString;
-      end
-      else
-        FrmMain.Close;
-    finally
+      if(FrmLogin.ShowModal <> mrOk)then FrmMain.Close;
 
+      LiberarMenus;
+      StatusBar.Panels[4].Text := 'Usuario.: ' + DM.FDMTUsuario.FieldByName('LOGIN').AsString;
+    finally
+      FreeAndNil(FrmLogin);
     end;
   Except on E:Exception do
     Mensagem(3,E.ToString);

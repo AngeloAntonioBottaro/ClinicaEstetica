@@ -75,7 +75,8 @@ uses
   UntRelatorioContasPagarVencidas in 'Reports\UntRelatorioContasPagarVencidas.pas' {FrmContasPagarVencidas},
   UntRelatorioContasPagasEntrePeriodo in 'Reports\UntRelatorioContasPagasEntrePeriodo.pas' {FrmContasPagasEntrePeriodo},
   UntRelatorioContasExcluidas in 'Reports\UntRelatorioContasExcluidas.pas' {FrmContasExcluidas},
-  UntFichaCliente in 'Reports\UntFichaCliente.pas' {FrmFichaCliente};
+  UntFichaCliente in 'Reports\UntFichaCliente.pas' {FrmFichaCliente},
+  Model.Behaviors in '..\Bibliotecas\Behaviors\Model.Behaviors.pas';
 
 {$R *.res}
 

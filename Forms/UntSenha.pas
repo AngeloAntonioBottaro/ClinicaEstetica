@@ -49,7 +49,7 @@ begin
       if EditSenha.Text = EmptyStr then
         EditSenha.SetFocus;
 
-      if EditSenha.Text = 'PASSWORD' then
+      if UpperCase(EditSenha.Text) = 'PASSWORD' then
       begin
         FrmParametrosSistema.ShowModal;
         EditSenha.SetFocus;

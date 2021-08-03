@@ -13,7 +13,6 @@ uses
   UntBase,
   UntComponentesGerais,
   UntDataModule,
-  UntBibliotecaFuncoes,
 
   Data.DB,
 
@@ -36,7 +35,6 @@ type
     ComboBoxLogin: TComboBox;
     EditSenha: TEdit;
     ButtonLogar: TButton;
-    LabelLogin: TLabel;
     Image: TImage;
     procedure FormShow(Sender: TObject);
     procedure EditLoginExit(Sender: TObject);
@@ -44,7 +42,7 @@ type
     procedure ComboBoxLoginSelect(Sender: TObject);
   private
     procedure CarregarImagem;
-    procedure PassaInfoParaMemoryTable;
+    procedure CarregarUsuarios;
     { Private declarations }
   public
     { Public declarations }
@@ -57,165 +55,103 @@ implementation
 
 {$R *.dfm}
 
+uses Msg.controller, Exceptions, Utils.MyFireDACLibrary, Utils.MyLibrary;
+
 procedure TFrmLogin.ButtonLogarClick(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      if not (EditSenha.Text = EmptyStr) then
-      begin
-        if DM.FDQAuxiliar.FieldByName('SENHA').AsString = EditSenha.Text then
-        begin
-          LabelLogin.Caption := 'True';
+   if(EditSenha.Text = EmptyStr)then
+   begin
+      EditSenha.SetFocus;
+      raise ExceptionEmpty.Create();
+   end;
 
-          DM.FDMTUsuario.Close;
-          DM.FDMTUsuario.Open;
-          DM.FDMTUsuario.Insert;
+   if(DM.FDQAuxiliar.FieldByName('SENHA').AsString <> EditSenha.Text)then
+   begin
+     EditSenha.SetFocus;
+     raise ExceptionWarning.Create('Senha incorreta');
+   end;
 
-          PassaInfoParaMemoryTable;
+   Utils.MyFireDACLibrary.PassaInfoParaMemoryTable(DM.FDQAuxiliar, DM.FDMTUsuario);
 
-          DM.FDMTUsuario.Post;
-          DM.FDMTUsuario.First;
-
-          DM.FDQAuxiliar.Close;
-
-          FrmLogin.Close;
-        end
-        else
-        begin
-          EditSenha.SetFocus;
-          Mensagem(1,'Senha Incorreta');
-        end;
-      end
-      else
-        EditSenha.SetFocus;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+   Self.Close;
+   ModalResult := mrOk;
 end;
 
 procedure TFrmLogin.CarregarImagem;
+var
+  vNome: string;
+  vExtensao: string;
 begin
-  try
-    try
-      // tenta pegar a imagem de fundo nos tipo PNG, JPEG, JPG, BMP;
-      if FileExists(ExtractFilePath(Application.ExeName) + 'Logo.png') then
-        Image.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Logo.png')
-      else if FileExists(ExtractFilePath(Application.ExeName) + 'Logo.jpeg') then
-        Image.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Logo.jpeg')
-      else if FileExists(ExtractFilePath(Application.ExeName) + 'Logo.jpg') then
-        Image.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Logo.jpg')
-      else if FileExists(ExtractFilePath(Application.ExeName) + 'Logo.bmp') then
-        Image.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Logo.bmp');
-    finally
+  vNome     := utils.MyLibrary.GetAppPath() + 'Logo';
+  vExtensao := '';
 
-    end;
-  Except on E:Exception do
+  if FileExists(vNome + '.png') then vExtensao := '.png'
+  else if FileExists(vNome + '.jpeg') then vExtensao := '.jpeg'
+  else if FileExists(vNome + '.jpg') then vExtensao := '.jpg'
+  else if FileExists(vNome + '.bmp') then vExtensao := '.bmp';
 
-  end;
+  Image.Visible := (vExtensao <> '');
+  if(Image.Visible)then Image.Picture.LoadFromFile(vNome + vExtensao);
+end;
+
+procedure TFrmLogin.CarregarUsuarios;
+begin
+   ComboBoxLogin.Clear;
+
+   DM.FDQAuxiliar.Close;
+   DM.FDQAuxiliar.SQL.Text := 'SELECT * FROM USUARIO WHERE STATUS = :STATUS';
+   DM.FDQAuxiliar.Params.ParamByName('STATUS').AsString := 'ATIVO';
+   DM.FDQAuxiliar.Open;
+   DM.FDQAuxiliar.First;
+
+   while not DM.FDQAuxiliar.Eof do
+   begin
+     ComboBoxLogin.Items.Add(DM.FDQAuxiliar.FieldByName('LOGIN').AsString);
+     DM.FDQAuxiliar.Next;
+   end;
 end;
 
 procedure TFrmLogin.ComboBoxLoginSelect(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      // Se tiver vazio ele limpa tudo senao adiciona o numero do usuario no edit
-      if ComboBoxLogin.Text = EmptyStr then
-      begin
-        EditLogin.Text := EmptyStr;
-        EditSenha.Text := EmptyStr;
-      end
-      else
-      begin
-        DM.FDQAuxiliar.Locate('LOGIN',ComboBoxLogin.Text,[]);
-        EditLogin.Text := DM.FDQAuxiliar.FieldByName('CODIGO').AsString;
-        EditSenha.SetFocus;
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
+  // Se tiver vazio ele limpa tudo senao adiciona o numero do usuario no edit
+  if(ComboBoxLogin.Text = EmptyStr)then
+  begin
+     EditLogin.Text := EmptyStr;
+     EditSenha.Text := EmptyStr;
+     Exit;
   end;
+
+  DM.FDQAuxiliar.Locate('LOGIN',ComboBoxLogin.Text,[]);
+  EditLogin.Text := DM.FDQAuxiliar.FieldByName('CODIGO').AsString;
+  EditSenha.SetFocus;
 end;
 
 procedure TFrmLogin.EditLoginExit(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      // Se tiver vazio ele limpa tudo senao adiciona o usuario no combobox
-      if EditLogin.Text = EmptyStr then
-      begin
-        EditLogin.Text := EmptyStr;
-        EditSenha.Text := EmptyStr;
-        ComboBoxLogin.Text := EmptyStr;
-      end
-      else
-      begin
-        DM.FDQAuxiliar.Locate('CODIGO',EditLogin.Text,[]);
-        ComboBoxLogin.Text := DM.FDQAuxiliar.FieldByName('LOGIN').AsString;
-        EditSenha.SetFocus;
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
+  // Se tiver vazio ele limpa tudo senao adiciona o usuario no combobox
+  if EditLogin.Text = EmptyStr then
+  begin
+     EditLogin.Text     := EmptyStr;
+     EditSenha.Text     := EmptyStr;
+     ComboBoxLogin.Text := EmptyStr;
+     Exit;
   end;
+
+  DM.FDQAuxiliar.Locate('CODIGO',EditLogin.Text,[]);
+  ComboBoxLogin.Text := DM.FDQAuxiliar.FieldByName('LOGIN').AsString;
+  EditSenha.SetFocus;
 end;
 
 procedure TFrmLogin.FormShow(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      EditLogin.Clear;
-      EditSenha.Clear;
-      LabelLogin.Caption := 'False';
+  EditLogin.Clear;
+  EditSenha.Clear;
 
-      CarregarImagem;
+  Self.CarregarImagem;
 
-      DM.FDQAuxiliar.Close;
-      DM.FDQAuxiliar.SQL.Text := 'SELECT * FROM USUARIO WHERE STATUS = :STATUS';
-      DM.FDQAuxiliar.Params.ParamByName('STATUS').AsString := 'ATIVO';
-      DM.FDQAuxiliar.Open;
+  Self.CarregarUsuarios;
 
-      DM.FDQAuxiliar.First;
-
-      ComboBoxLogin.Clear;
-
-      while not DM.FDQAuxiliar.Eof do
-      begin
-        ComboBoxLogin.Items.Add(DM.FDQAuxiliar.FieldByName('LOGIN').AsString);
-        DM.FDQAuxiliar.Next;
-      end;
-
-      EditLogin.SetFocus;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
-end;
-
-procedure TFrmLogin.PassaInfoParaMemoryTable;
-var
-  I: Integer;
-  NomeCampo: string;
-begin
-  // Se tiver informação ele passa para o memorytable
-  for I := 0 to (DM.FDQAuxiliar.FieldCount - 1) do
-  begin
-    NomeCampo := DM.FDQAuxiliar.Fields[I].FieldName;
-    if (DM.FDMTUsuario.FindField(NomeCampo) <> nil) then
-      DM.FDMTUsuario.FieldByName(NomeCampo).Value := DM.FDQAuxiliar.FieldByName(NomeCampo).Value;
-  end;
+  EditLogin.SetFocus;
 end;
 
 end.

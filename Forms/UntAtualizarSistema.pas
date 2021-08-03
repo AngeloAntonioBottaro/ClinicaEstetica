@@ -133,18 +133,14 @@ begin
 
       DM.FDQContadores.Locate('TABELA',NomeTabela,[]);
       // Se achar o valor maximo coloca senao zera o contador
-      if not (DM.FDQAuxiliar.Eof) then
-      begin
-        DM.FDQContadores.Edit;
-        DM.FDQContadores.FieldByName('VALOR').AsInteger := DM.FDQAuxiliar.FieldByName('MAX').AsInteger;
-        DM.FDQContadores.Post;
-      end
-      else
-      begin
-        DM.FDQContadores.Edit;
-        DM.FDQContadores.FieldByName('VALOR').AsInteger := 0;
-        DM.FDQContadores.Post;
-      end;
+      DM.FDQContadores.Edit;
+      DM.FDQContadores.FieldByName('VALOR').AsInteger := 0;
+
+      if not(DM.FDQAuxiliar.Eof)then
+         DM.FDQContadores.FieldByName('VALOR').AsInteger := DM.FDQAuxiliar.FieldByName('MAX').AsInteger;
+
+      DM.FDQContadores.Post;
+
 
       ProgressBar.Position := ProgressBar.Position +1;
     finally
@@ -183,28 +179,24 @@ begin
       NLinhas := QuantasLinhas(ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
       ProgressBar.Max := NLinhas;
 
-      //Inicia do zero
       Reset(ArqTxt);
-      // Percorre ele todo
       while not eof(ArqTxt) do
       begin
         Readln(ArqTxt, Linha);
-        with DM.FDQAtualizador do
-        begin
-          try
-            close;
-            SQL.Text := linha;
-            ExecSQL;
-          Except on E:Exception do
-            // Se encontrar Exceção é porque ja tem
-            //entao nao faz nada e passa para o proximo
-          end;
-          ProgressBar.Position := ProgressBar.Position + 1;
+
+        try
+          DM.FDQAtualizador.close;
+          DM.FDQAtualizador.SQL.Text := linha;
+          DM.FDQAtualizador.ExecSQL;
+        Except on E:Exception do
+          // Se encontrar Exceção é porque ja tem
+          //entao nao faz nada e passa para o proximo
         end;
+        ProgressBar.Position := ProgressBar.Position + 1;
       end;
-      // Fecha o arquivo
+
       Closefile(ArqTxt);
-      // Deleta o Patch
+
       DeleteFile(ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
     end;
     LabelStatus.Caption := 'Banco de Dados Atualizado';
@@ -239,13 +231,19 @@ procedure TFrmAtualizarSistema.FormShow(Sender: TObject);
 var
   SR: TSearchRec;
   I: integer;
+  vPath: string;
 begin
   inherited;
   try
     try
       Memo.Clear;
+
       // procura os arquivos patch na pasta atualizaçao
-      I := FindFirst(ExtractFilePath(Application.ExeName) + '\Atualizacao\*.patch', faNormal, SR);
+      vPath := ExtractFilePath(Application.ExeName) + '\Atualizacao';
+
+      if(not DirectoryExists(vPath))then ForceDirectories(vPath);
+
+      I := FindFirst('\*.patch', faNormal, SR);
 
       while I = 0 do
       begin

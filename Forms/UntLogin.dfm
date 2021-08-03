@@ -41,14 +41,6 @@ inherited FrmLogin: TFrmLogin
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object LabelLogin: TLabel
-      Left = 8
-      Top = 90
-      Width = 25
-      Height = 13
-      Caption = 'False'
-      Visible = False
-    end
     object Image: TImage
       AlignWithMargins = True
       Left = 284
@@ -3176,10 +3168,11 @@ inherited FrmLogin: TFrmLogin
       OnExit = EditLoginExit
     end
     object ComboBoxLogin: TComboBox
-      Left = 115
+      Left = 110
       Top = 21
-      Width = 145
+      Width = 150
       Height = 21
+      Style = csDropDownList
       CharCase = ecUpperCase
       TabOrder = 1
       TabStop = False
@@ -3195,9 +3188,9 @@ inherited FrmLogin: TFrmLogin
       TabOrder = 2
     end
     object ButtonLogar: TButton
-      Left = 88
+      Left = 180
       Top = 80
-      Width = 75
+      Width = 80
       Height = 30
       Caption = 'Entrar'
       ImageAlignment = iaRight

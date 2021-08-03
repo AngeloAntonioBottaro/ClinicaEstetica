@@ -1,21 +1,21 @@
 inherited FrmMain: TFrmMain
   BorderStyle = bsSingle
   Caption = 'FrmMain'
-  ClientHeight = 436
-  ClientWidth = 780
+  ClientHeight = 417
+  ClientWidth = 771
   Menu = MainMenu
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 786
-  ExplicitHeight = 485
+  ExplicitWidth = 777
+  ExplicitHeight = 466
   PixelsPerInch = 96
   TextHeight = 13
   object Image: TImage
     Left = 57
     Top = 0
-    Width = 723
-    Height = 417
+    Width = 714
+    Height = 398
     Align = alClient
     Center = True
     Picture.Data = {
@@ -3127,7 +3127,7 @@ inherited FrmMain: TFrmMain
     Left = 0
     Top = 0
     Width = 57
-    Height = 417
+    Height = 398
     Align = alLeft
     TabOrder = 0
     object ButtonServicos: TButton
@@ -3192,7 +3192,7 @@ inherited FrmMain: TFrmMain
     end
   end
   object MemoMensagem: TMemo
-    Left = 620
+    Left = 611
     Top = 0
     Width = 160
     Height = 137
@@ -3214,8 +3214,8 @@ inherited FrmMain: TFrmMain
   end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 417
-    Width = 780
+    Top = 398
+    Width = 771
     Height = 19
     BiDiMode = bdLeftToRight
     Panels = <
