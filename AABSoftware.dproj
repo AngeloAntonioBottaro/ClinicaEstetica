@@ -116,14 +116,9 @@
             <Form>FrmMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Biblioteca\uCComunicacao.pas"/>
         <DCCReference Include="Biblioteca\UntBibliotecaFuncoes.pas"/>
         <DCCReference Include="Biblioteca\UntComponentesGerais.pas">
             <Form>FrmComponentes</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Biblioteca\UntMensagem.pas">
-            <Form>FrmMensagem</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="DataModules\UntDataModule.pas">

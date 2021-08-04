@@ -6,7 +6,7 @@ uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Mask, DBCtrls, db, ExtCtrls,
   jpeg, ClipBrd, filectrl, DBGrids, Grids, ShellApi, inifiles, Winapi.Windows,
-  frxClass, UntMensagem, Math, frxExportPDF, DateUtils ;
+  frxClass,  Math, frxExportPDF, DateUtils, Msg.Controller;
 
   // Procedures
   Procedure CriarIniFile; // Irá criar um arquivo INI na mesma pasta e com o mesmo nome do executavel
@@ -131,49 +131,22 @@ begin
 
         1:
           begin
-            FrmMensagem.LabelTitulo.Caption := 'Informação';
-            FrmMensagem.LabelMensagem.Caption := Mensagem;
-            FrmMensagem.ButtonImagem.ImageIndex := 1;
-            FrmMensagem.GroupBoxBotton.Visible := True;
-            FrmMensagem.ButtonOk.Visible := True;
-            FrmMensagem.ShowModal;
-
-            Result := StrToBool(FrmMensagem.LabelRespostaMensagem.Caption);
+            Result := ShowInfo(Mensagem);
           end;
 
         2:
           begin
-            FrmMensagem.LabelTitulo.Caption := 'Alerta';
-            FrmMensagem.LabelMensagem.Caption := Mensagem;
-            FrmMensagem.ButtonImagem.ImageIndex := 2;
-            FrmMensagem.TimerAlert.Enabled := True;
-            FrmMensagem.ShowModal;
-
-            Result := StrToBool(FrmMensagem.LabelRespostaMensagem.Caption);
+            Result := ShowInfo(Mensagem);
           end;
 
          3:
           begin
-            FrmMensagem.LabelTitulo.Caption := 'Inconsistencia';
-            FrmMensagem.LabelMensagem.Caption := Mensagem;
-            FrmMensagem.ButtonImagem.ImageIndex := 3;
-            FrmMensagem.Hint := 'Entre em contato com o desenvolvedor do software';
-            FrmMensagem.ShowModal;
-
-            Result := StrToBool(FrmMensagem.LabelRespostaMensagem.Caption);
+            Result := ShowInfo(Mensagem);
           end;
 
           4:
           begin
-            FrmMensagem.LabelTitulo.Caption := 'Atenção';
-            FrmMensagem.LabelMensagem.Caption := Mensagem;
-            FrmMensagem.ButtonImagem.ImageIndex := 4;
-            FrmMensagem.GroupBoxBotton.Visible := True;
-            FrmMensagem.ButtonSim.Visible := True;
-            FrmMensagem.ButtonNao.Visible := True;
-            FrmMensagem.ShowModal;
-
-            Result := StrToBool(FrmMensagem.LabelRespostaMensagem.Caption);
+            Result := ShowInfo(Mensagem);
           end;
       end;
     finally

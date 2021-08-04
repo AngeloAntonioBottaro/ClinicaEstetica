@@ -15,6 +15,8 @@ object FrmBase: TFrmBase
   OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13

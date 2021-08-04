@@ -6,10 +6,8 @@ uses
   UntMain in 'Forms\UntMain.pas' {FrmMain},
   Vcl.Themes,
   Vcl.Styles,
-  uCComunicacao in 'Biblioteca\uCComunicacao.pas',
   UntBibliotecaFuncoes in 'Biblioteca\UntBibliotecaFuncoes.pas',
   UntComponentesGerais in 'Biblioteca\UntComponentesGerais.pas' {FrmComponentes},
-  UntMensagem in 'Biblioteca\UntMensagem.pas' {FrmMensagem},
   UntDataModule in 'DataModules\UntDataModule.pas' {DM: TDataModule},
   UntAtualizarSistema in 'Forms\UntAtualizarSistema.pas' {FrmAtualizarSistema},
   UntSenha in 'Forms\UntSenha.pas' {FrmSenha},
@@ -87,72 +85,7 @@ begin
   Application.CreateForm(TFrmMain, FrmMain);
   Application.CreateForm(TFrmBase, FrmBase);
   Application.CreateForm(TFrmComponentes, FrmComponentes);
-  Application.CreateForm(TFrmMensagem, FrmMensagem);
-  Application.CreateForm(TFrmSenha, FrmSenha);
-  Application.CreateForm(TFrmAtualizarSistema, FrmAtualizarSistema);
-  Application.CreateForm(TFrmParametrosSistema, FrmParametrosSistema);
   Application.CreateForm(TDM, DM);
-  Application.CreateForm(TFrmLiberarSistema, FrmLiberarSistema);
-  Application.CreateForm(TFrmCadastroCliente, FrmCadastroCliente);
-  Application.CreateForm(TFrmCadastroFormaPagamento, FrmCadastroFormaPagamento);
-  Application.CreateForm(TFrmCadastroGrupo, FrmCadastroGrupo);
-  Application.CreateForm(TFrmCadastroHistoricoCaixa, FrmCadastroHistoricoCaixa);
-  Application.CreateForm(TFrmCadastroProduto, FrmCadastroProduto);
-  Application.CreateForm(TFrmCadastroSubGrupo, FrmCadastroSubGrupo);
-  Application.CreateForm(TFrmCaixaDiario, FrmCaixaDiario);
-  Application.CreateForm(TFrmConsultaCliente, FrmConsultaCliente);
-  Application.CreateForm(TFrmConsultaContaReceber, FrmConsultaContaReceber);
-  Application.CreateForm(TFrmConsultaContaRecebida, FrmConsultaContaRecebida);
-  Application.CreateForm(TFrmConsultaEntradaEstoque, FrmConsultaEntradaEstoque);
-  Application.CreateForm(TFrmConsultaGrupo, FrmConsultaGrupo);
-  Application.CreateForm(TFrmConsultaProduto, FrmConsultaProduto);
-  Application.CreateForm(TFrmConsultaServico, FrmConsultaServico);
-  Application.CreateForm(TFrmConsultaSubGrupo, FrmConsultaSubGrupo);
-  Application.CreateForm(TFrmConsultaVenda, FrmConsultaVenda);
-  Application.CreateForm(TFrmParcelamento, FrmParcelamento);
-  Application.CreateForm(TFrmEntradaEstoque, FrmEntradaEstoque);
-  Application.CreateForm(TFrmEstornaRecebimento, FrmEstornaRecebimento);
-  Application.CreateForm(TFrmLancamentoCaixa, FrmLancamentoCaixa);
-  Application.CreateForm(TFrmLancamentoContaReceber, FrmLancamentoContaReceber);
-  Application.CreateForm(TFrmLancamentoContaRecebida, FrmLancamentoContaRecebida);
-  Application.CreateForm(TFrmRecebimentoConta, FrmRecebimentoConta);
-  Application.CreateForm(TFrmServicos, FrmServicos);
-  Application.CreateForm(TFrmVenda, FrmVenda);
-  Application.CreateForm(TFrmRelatorioCadastroCliente, FrmRelatorioCadastroCliente);
-  Application.CreateForm(TFrmRelatorioCadastroCliente, FrmRelatorioCadastroCliente);
-  Application.CreateForm(TFrmRelatorioCadastroProduto, FrmRelatorioCadastroProduto);
-  Application.CreateForm(TFrmRelatorioCaixaDiario, FrmRelatorioCaixaDiario);
-  Application.CreateForm(TFrmRelatorioCaixaDiarioEntrePeriodo, FrmRelatorioCaixaDiarioEntrePeriodo);
-  Application.CreateForm(TFrmRelatorioContasAReceberEntrePeriodo, FrmRelatorioContasAReceberEntrePeriodo);
-  Application.CreateForm(TFrmRelatorioContasRecebidasEntrePeriodo, FrmRelatorioContasRecebidasEntrePeriodo);
-  Application.CreateForm(TFrmRelatorioContasAReceberVencidas, FrmRelatorioContasAReceberVencidas);
-  Application.CreateForm(TFrmRelatorioEntradaEstoque, FrmRelatorioEntradaEstoque);
-  Application.CreateForm(TFrmRelatorioServicos, FrmRelatorioServicos);
-  Application.CreateForm(TFrmRelatorioVendas, FrmRelatorioVendas);
-  Application.CreateForm(TFrmSugestaoCompra, FrmSugestaoCompra);
-  Application.CreateForm(TFrmAgenda, FrmAgenda);
   Application.CreateForm(TFrmLogin, FrmLogin);
-  Application.CreateForm(TFrmCadastroUsuario, FrmCadastroUsuario);
-  Application.CreateForm(TFrmCadastroFornecedor, FrmCadastroFornecedor);
-  Application.CreateForm(TFrmCadastroCidade, FrmCadastroCidade);
-  Application.CreateForm(TFrmConsultaFornecedor, FrmConsultaFornecedor);
-  Application.CreateForm(TFrmCadastroFuncionario, FrmCadastroFuncionario);
-  Application.CreateForm(TFrmConsultaFuncionario, FrmConsultaFuncionario);
-  Application.CreateForm(TFrmLancamentoContaPagar, FrmLancamentoContaPagar);
-  Application.CreateForm(TFrmConsultaContaPagar, FrmConsultaContaPagar);
-  Application.CreateForm(TFrmPagamentoContas, FrmPagamentoContas);
-  Application.CreateForm(TFrmRelatorioServicosRealizados, FrmRelatorioServicosRealizados);
-  Application.CreateForm(TFrmLancamentoContaPaga, FrmLancamentoContaPaga);
-  Application.CreateForm(TFrmEstornaPagamento, FrmEstornaPagamento);
-  Application.CreateForm(TFrmConsultaContaPaga, FrmConsultaContaPaga);
-  Application.CreateForm(TFrmConsultaFuncionarioServico, FrmConsultaFuncionarioServico);
-  Application.CreateForm(TFrmRelatorioServicoResumido, FrmRelatorioServicoResumido);
-  Application.CreateForm(TDMRelatorios, DMRelatorios);
-  Application.CreateForm(TDMImpressos, DMImpressos);
-  Application.CreateForm(TFrmRelatorioContasPagarEntrePeriodo, FrmRelatorioContasPagarEntrePeriodo);
-  Application.CreateForm(TFrmContasPagarVencidas, FrmContasPagarVencidas);
-  Application.CreateForm(TFrmContasPagasEntrePeriodo, FrmContasPagasEntrePeriodo);
-  Application.CreateForm(TFrmContasExcluidas, FrmContasExcluidas);
-  Application.CreateForm(TFrmFichaCliente, FrmFichaCliente);
   Application.Run;
 end.

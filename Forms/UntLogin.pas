@@ -59,56 +59,44 @@ uses Msg.controller, Exceptions, Utils.MyFireDACLibrary, Utils.MyLibrary;
 
 procedure TFrmLogin.ButtonLogarClick(Sender: TObject);
 begin
-   if(EditSenha.Text = EmptyStr)then
-   begin
-      EditSenha.SetFocus;
-      raise ExceptionEmpty.Create();
-   end;
-
-   if(DM.FDQAuxiliar.FieldByName('SENHA').AsString <> EditSenha.Text)then
-   begin
+  if(EditSenha.Text = EmptyStr)then
+  begin
      EditSenha.SetFocus;
-     raise ExceptionWarning.Create('Senha incorreta');
-   end;
+     raise ExceptionEmpty.Create('');
+  end;
 
-   Utils.MyFireDACLibrary.PassaInfoParaMemoryTable(DM.FDQAuxiliar, DM.FDMTUsuario);
+  if(DM.FDQAuxiliar.FieldByName('SENHA').AsString <> EditSenha.Text)then
+  begin
+    EditSenha.SetFocus;
+    raise ExceptionWarning.Create('Senha incorreta');
+  end;
 
-   Self.Close;
-   ModalResult := mrOk;
+  Utils.MyFireDACLibrary.PassaInfoParaMemoryTable(DM.FDQAuxiliar, DM.FDMTUsuario);
+
+  Self.Close;
+  ModalResult := mrOk;
 end;
 
 procedure TFrmLogin.CarregarImagem;
-var
-  vNome: string;
-  vExtensao: string;
 begin
-  vNome     := utils.MyLibrary.GetAppPath() + 'Logo';
-  vExtensao := '';
-
-  if FileExists(vNome + '.png') then vExtensao := '.png'
-  else if FileExists(vNome + '.jpeg') then vExtensao := '.jpeg'
-  else if FileExists(vNome + '.jpg') then vExtensao := '.jpg'
-  else if FileExists(vNome + '.bmp') then vExtensao := '.bmp';
-
-  Image.Visible := (vExtensao <> '');
-  if(Image.Visible)then Image.Picture.LoadFromFile(vNome + vExtensao);
+  Utils.MyLibrary.LoadImage('Logo', Image);
 end;
 
 procedure TFrmLogin.CarregarUsuarios;
 begin
-   ComboBoxLogin.Clear;
+  ComboBoxLogin.Clear;
 
-   DM.FDQAuxiliar.Close;
-   DM.FDQAuxiliar.SQL.Text := 'SELECT * FROM USUARIO WHERE STATUS = :STATUS';
-   DM.FDQAuxiliar.Params.ParamByName('STATUS').AsString := 'ATIVO';
-   DM.FDQAuxiliar.Open;
-   DM.FDQAuxiliar.First;
+  DM.FDQAuxiliar.Close;
+  DM.FDQAuxiliar.SQL.Text := 'SELECT * FROM USUARIO WHERE STATUS = :STATUS';
+  DM.FDQAuxiliar.Params.ParamByName('STATUS').AsString := 'ATIVO';
+  DM.FDQAuxiliar.Open;
+  DM.FDQAuxiliar.First;
 
-   while not DM.FDQAuxiliar.Eof do
-   begin
-     ComboBoxLogin.Items.Add(DM.FDQAuxiliar.FieldByName('LOGIN').AsString);
-     DM.FDQAuxiliar.Next;
-   end;
+  while not DM.FDQAuxiliar.Eof do
+  begin
+    ComboBoxLogin.Items.Add(DM.FDQAuxiliar.FieldByName('LOGIN').AsString);
+    DM.FDQAuxiliar.Next;
+  end;
 end;
 
 procedure TFrmLogin.ComboBoxLoginSelect(Sender: TObject);

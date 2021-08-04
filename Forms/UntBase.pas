@@ -9,6 +9,8 @@ uses
 type
   TFrmBase = class(TForm)
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,20 +24,26 @@ implementation
 
 {$R *.dfm}
 
+uses
+   Utils.MyLibrary;
+
+procedure TFrmBase.FormCreate(Sender: TObject);
+begin
+  ConfForm(Self);
+end;
+
+procedure TFrmBase.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  DefaultKeyDown(TForm(Self), Key, Shift);
+end;
+
 procedure TFrmBase.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  try
-    try
-      if key = #13 then
-      begin
-        key := #0;
-        Perform(WM_NEXTDLGCTL,0,0);
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    ShowMessage('Inconsistencia no TFrmBase.FormKeyPress');
+  if(key = #13)then
+  begin
+     key := #0;
+     Perform(WM_NEXTDLGCTL,0,0);
   end;
 end;
 

@@ -1,11 +1,12 @@
 inherited FrmMain: TFrmMain
+  Tag = 2
   BorderStyle = bsSingle
   Caption = 'FrmMain'
   ClientHeight = 417
   ClientWidth = 771
   Menu = MainMenu
   WindowState = wsMaximized
-  OnCreate = FormCreate
+  OnClose = FormClose
   OnShow = FormShow
   ExplicitWidth = 777
   ExplicitHeight = 466

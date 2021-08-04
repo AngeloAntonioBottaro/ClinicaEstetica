@@ -3164,6 +3164,7 @@ inherited FrmLogin: TFrmLogin
       Width = 49
       Height = 21
       CharCase = ecUpperCase
+      NumbersOnly = True
       TabOrder = 0
       OnExit = EditLoginExit
     end
