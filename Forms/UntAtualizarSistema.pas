@@ -27,6 +27,7 @@ type
     procedure VerificaCampos(NomeTabela: string);
     procedure InsereContador(NomeTabela: string);
     procedure ArrumarPK(NomeTabela: string);
+    procedure CadastraUsuarioSupervisor();
     { Private declarations }
   public
     { Public declarations }
@@ -46,106 +47,97 @@ procedure TFrmAtualizarSistema.ButtonTestarBancoClick(Sender: TObject);
 Var
   I: Integer;
 begin
-  inherited;
-  try
-    try
-      Application.ProcessMessages;
-      Continua := True;
+  Application.ProcessMessages;
+  Continua := True;
 
-      DM.FDQContadores.Close;
-      DM.FDQContadores.Open;
+  DM.FDQContadores.Close;
+  DM.FDQContadores.Open;
 
-      // Total de tabelas a percorrer
-      ProgressBar.Max := MemoTabelas.Lines.Count;
+  // Total de tabelas a percorrer
+  ProgressBar.Max := MemoTabelas.Lines.Count;
 
-      // Verifica os Campos
-      if Continua then
-      begin
-        ProgressBar.Position := 0;
+  // Verifica os Campos
+  if(Continua)then
+  begin
+    ProgressBar.Position := 0;
 
-        for I := 0 to MemoTabelas.Lines.Count -1 do
-        begin
-          if Continua then
-            VerificaCampos(MemoTabelas.Lines[I]);
-        end;
-      end;
-
-      // Verifica os Contadores
-      if Continua then
-      begin
-        ProgressBar.Position := 0;
-
-        for I := 0 to MemoTabelas.Lines.Count -1 do
-        begin
-          if Continua then
-            InsereContador(UpperCase(MemoTabelas.Lines[I]));
-        end;
-      end;
-
-      // Arrumar o valor do contador com a Primary Key que ja existe
-      if Continua then
-      begin
-        ProgressBar.Position := 0;
-
-        for I := 0 to MemoTabelas.Lines.Count -1 do
-        begin
-          if Continua then
-            ArrumarPK(UpperCase(MemoTabelas.Lines[I]));
-        end;
-      end;
-
-      if ProgressBar.Position = ProgressBar.Max then
-        Mensagem(1,'Banco Testado Com Sucesso!!');
-
-      // Verifica o usuario Supervisor
-      DM.FDQConsulta.Close;
-      DM.FDQConsulta.SQL.Text := 'SELECT * FROM USUARIO WHERE CODIGO = 1';
-      DM.FDQConsulta.Open;
-
-      if DM.FDQConsulta.Eof then
-      begin
-        DM.FDQConsulta.Close;
-        DM.FDQConsulta.SQL.Text := 'INSERT INTO USUARIO (CODIGO, LOGIN, SENHA, TIPO, STATUS) VALUES (1,''SUPERVISOR'',''MASTERKEY'',''1'',''ATIVO'');';
-        DM.FDQConsulta.ExecSQL;
-      end;
-
-      DM.FDQConsulta.Close;
-    finally
-
+    for I := 0 to MemoTabelas.Lines.Count -1 do
+    begin
+      if(Continua)then
+        VerificaCampos(MemoTabelas.Lines[I]);
     end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
   end;
+
+  // Verifica os Contadores
+  if(Continua)then
+  begin
+    ProgressBar.Position := 0;
+
+    for I := 0 to MemoTabelas.Lines.Count -1 do
+    begin
+      if Continua then
+        InsereContador(UpperCase(MemoTabelas.Lines[I]));
+    end;
+  end;
+
+  // Arrumar o valor do contador com a Primary Key que ja existe
+  if(Continua)then
+  begin
+    ProgressBar.Position := 0;
+
+    for I := 0 to MemoTabelas.Lines.Count -1 do
+    begin
+      if Continua then
+        ArrumarPK(UpperCase(MemoTabelas.Lines[I]));
+    end;
+  end;
+
+  if(ProgressBar.Position = ProgressBar.Max)then
+    Mensagem(1,'Banco Testado Com Sucesso!!');
+
+  Self.CadastraUsuarioSupervisor;
+end;
+
+procedure TFrmAtualizarSistema.CadastraUsuarioSupervisor;
+begin
+  DM.FDQConsulta.Close;
+  DM.FDQConsulta.SQL.Text := 'SELECT * FROM USUARIO';
+  DM.FDQConsulta.Open;
+
+  if(DM.FDQConsulta.IsEmpty)then
+  begin
+    DM.FDQConsulta.Close;
+    DM.FDQConsulta.SQL.Text := 'INSERT INTO USUARIO(LOGIN, SENHA, TIPO, STATUS) VALUES (''SUPERVISOR'',''MASTERKEY'',''1'',''ATIVO'');';
+    DM.FDQConsulta.ExecSQL;
+  end;
+
+  DM.FDQConsulta.Close;
 end;
 
 procedure TFrmAtualizarSistema.ArrumarPK(NomeTabela: string);
 begin
   try
-    try
-      Application.ProcessMessages;
+    Application.ProcessMessages;
 
-      LabelStatus.Caption := 'Verificando Chaves Primarias ' + NomeTabela;
+    LabelStatus.Caption := 'Verificando Chaves Primarias ' + NomeTabela;
 
-      // Pega o ultimo registro e adiciona no contador
-      DM.FDQAuxiliar.Close;
-      DM.FDQAuxiliar.SQL.Text := 'SELECT MAX(CODIGO) FROM ' + NomeTabela;
-      DM.FDQAuxiliar.Open;
+    // Pega o ultimo registro e adiciona no contador
+    DM.FDQAuxiliar.Close;
+    DM.FDQAuxiliar.SQL.Text := 'SELECT MAX(CODIGO) FROM ' + NomeTabela;
+    DM.FDQAuxiliar.Open;
 
-      DM.FDQContadores.Locate('TABELA',NomeTabela,[]);
-      // Se achar o valor maximo coloca senao zera o contador
-      DM.FDQContadores.Edit;
-      DM.FDQContadores.FieldByName('VALOR').AsInteger := 0;
+    DM.FDQContadores.Locate('TABELA',NomeTabela,[]);
+    // Se achar o valor maximo coloca senao zera o contador
+    DM.FDQContadores.Edit;
+    DM.FDQContadores.FieldByName('VALOR').AsInteger := 0;
 
-      if not(DM.FDQAuxiliar.Eof)then
-         DM.FDQContadores.FieldByName('VALOR').AsInteger := DM.FDQAuxiliar.FieldByName('MAX').AsInteger;
+    if not(DM.FDQAuxiliar.IsEmpty)then
+       DM.FDQContadores.FieldByName('VALOR').AsInteger := DM.FDQAuxiliar.FieldByName('MAX').AsInteger;
 
-      DM.FDQContadores.Post;
+    DM.FDQContadores.Post;
 
 
-      ProgressBar.Position := ProgressBar.Position +1;
-    finally
-
-    end;
+    ProgressBar.Position := ProgressBar.Position +1;
   Except on E:Exception do
     begin
       Continua := False;
@@ -202,7 +194,7 @@ begin
     LabelStatus.Caption := 'Banco de Dados Atualizado';
     Mensagem(1,'Banco De Dados Atualizado');
   finally
-      Memo.Clear;
+    Memo.Clear;
   end;
 end;
 
@@ -210,20 +202,11 @@ procedure TFrmAtualizarSistema.FormClose(Sender: TObject;
   var Action: TCloseAction);
 var I: Integer;
 begin
-  inherited;
-  try
-    try
-      // Fecha Todas as Querys
-      for I := 0 to DM.ComponentCount - 1 do
-      begin
-        if DM.Components[I] is TFDQuery then
-          TFDQuery(DM.Components[I]).Close;
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
+  // Fecha Todas as Querys
+  for I := 0 to DM.ComponentCount - 1 do
+  begin
+    if DM.Components[I] is TFDQuery then
+      TFDQuery(DM.Components[I]).Close;
   end;
 end;
 
@@ -233,50 +216,37 @@ var
   I: integer;
   vPath: string;
 begin
-  inherited;
-  try
-    try
-      Memo.Clear;
+  Memo.Clear;
 
-      // procura os arquivos patch na pasta atualizaçao
-      vPath := ExtractFilePath(Application.ExeName) + '\Atualizacao';
+  // procura os arquivos patch na pasta atualizaçao
+  vPath := ExtractFilePath(Application.ExeName) + '\Atualizacao';
 
-      if(not DirectoryExists(vPath))then ForceDirectories(vPath);
+  if(not DirectoryExists(vPath))then ForceDirectories(vPath);
 
-      I := FindFirst('\*.patch', faNormal, SR);
+  I := FindFirst('\*.patch', faNormal, SR);
 
-      while I = 0 do
-      begin
-        // mostra no memo o nome dos arquivos
-        Memo.Lines.Add(sr.Name);
-        I := FindNext(SR);
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,e.ToString);
+  while I = 0 do
+  begin
+    // mostra no memo o nome dos arquivos
+    Memo.Lines.Add(sr.Name);
+    I := FindNext(SR);
   end;
 end;
 
 procedure TFrmAtualizarSistema.InsereContador(NomeTabela: string);
 begin
   try
-    try
-      Application.ProcessMessages;
+    Application.ProcessMessages;
 
-      LabelStatus.Caption := 'Verificando Contadores ' + NomeTabela;
+    LabelStatus.Caption := 'Verificando Contadores ' + NomeTabela;
 
-      // Vai inserir um contador para a tabela caso nao tiver
-      if not (DM.FDQContadores.Locate('TABELA',NomeTabela,[])) then
-      begin
-        DM.FDQAtualizador.Close;
-        DM.FDQAtualizador.SQL.Text := 'INSERT INTO CONTADORES(TABELA,VALOR) VALUES (:TABELA, 0);';
-        DM.FDQAtualizador.Params.ParamByName('TABELA').AsString := NomeTabela;
-        DM.FDQAtualizador.ExecSQL;
-      end;
-    finally
-
+    // Vai inserir um contador para a tabela caso nao tiver
+    if not (DM.FDQContadores.Locate('TABELA',NomeTabela,[])) then
+    begin
+      DM.FDQAtualizador.Close;
+      DM.FDQAtualizador.SQL.Text := 'INSERT INTO CONTADORES(TABELA,VALOR) VALUES (:TABELA, 0);';
+      DM.FDQAtualizador.Params.ParamByName('TABELA').AsString := NomeTabela;
+      DM.FDQAtualizador.ExecSQL;
     end;
   Except on E:Exception do
     begin
@@ -291,42 +261,38 @@ Var
  I, J : Integer;
 begin
   try
-    try
-      Application.ProcessMessages;
+    Application.ProcessMessages;
 
-      LabelStatus.Caption := 'Verificando Campos da Tabela: ' + UpperCase(NomeTabela);
-      // Pega todos os campos que tem no banco
-      DM.FDQAuxiliar.Close;
-      DM.FDQAuxiliar.SQL.Text := 'SELECT RDB$RELATION_NAME, RDB$FIELD_NAME FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = :TABELA';
-      DM.FDQAuxiliar.Params.ParamByName('TABELA').AsString := UpperCase(NomeTabela);
-      DM.FDQAuxiliar.Open;
+    LabelStatus.Caption := 'Verificando Campos da Tabela: ' + UpperCase(NomeTabela);
+    // Pega todos os campos que tem no banco
+    DM.FDQAuxiliar.Close;
+    DM.FDQAuxiliar.SQL.Text := 'SELECT RDB$RELATION_NAME, RDB$FIELD_NAME FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = :TABELA';
+    DM.FDQAuxiliar.Params.ParamByName('TABELA').AsString := UpperCase(NomeTabela);
+    DM.FDQAuxiliar.Open;
 
-      // Verifica todos os componentes no DataModule e pega só os FDQuery
-      for I := 0 to DM.ComponentCount - 1 do
+    // Verifica todos os componentes no DataModule e pega só os FDQuery
+    for I := 0 to DM.ComponentCount - 1 do
+    begin
+      if DM.Components[I] is TFDQuery then
       begin
-        if DM.Components[I] is TFDQuery then
+        // Se o nome do componente que ele achou for a query da tabela que esta verificando ele compara os campos
+        if DM.Components[I].Name = ('FDQ' + NomeTabela) then
         begin
-          // Se o nome do componente que ele achou for a query da tabela que esta verificando ele compara os campos
-          if DM.Components[I].Name = ('FDQ' + NomeTabela) then
+          // Verifica os campos
+          for J := 0 to TFDQuery(DM.Components[I]).Fields.Count -1 do
           begin
-            // Verifica os campos
-            for J := 0 to TFDQuery(DM.Components[I]).Fields.Count -1 do
+            // Se nao achar o campo
+            if not(DM.FDQAuxiliar.Locate('RDB$FIELD_NAME', TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName,[]))then
             begin
-              // Se nao achar o campo
-              if not (DM.FDQAuxiliar.Locate('RDB$FIELD_NAME', TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName,[])) then
-              begin
-               Mensagem(2,'Campo não Encontrado!!' + sLineBreak + 'Tabela:' + NomeTabela + sLineBreak + 'Campo: ' + TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName);
-               Continua := False;
-              end;
-
-              // Se o tipo do campo for diferente
-              { ************** }
+              Mensagem(2,'Campo não Encontrado!!' + sLineBreak + 'Tabela:' + NomeTabela + sLineBreak + 'Campo: ' + TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName);
+              Continua := False;
             end;
+
+            // Se o tipo do campo for diferente
+            { ************** }
           end;
         end;
       end;
-    finally
-
     end;
   Except on E:Exception do
     Mensagem(3,E.ToString);

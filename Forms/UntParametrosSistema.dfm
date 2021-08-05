@@ -15,6 +15,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Geral'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -74,6 +78,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     object TabSheet3: TTabSheet
       Caption = 'Carn'#234
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox4: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -133,6 +141,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     object TabSheet2: TTabSheet
       Caption = 'Cadastro Produto'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox2: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -154,6 +166,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     object TabSheet4: TTabSheet
       Caption = 'Servi'#231'o'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -183,6 +199,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     object Venda: TTabSheet
       Caption = 'Venda'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox5: TGroupBox
         AlignWithMargins = True
         Left = 3
@@ -204,6 +224,10 @@ inherited FrmParametrosSistema: TFrmParametrosSistema
     object TabSheet5: TTabSheet
       Caption = 'Recebimento'
       ImageIndex = 5
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox6: TGroupBox
         AlignWithMargins = True
         Left = 3

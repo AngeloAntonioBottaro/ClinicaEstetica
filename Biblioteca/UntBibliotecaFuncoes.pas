@@ -136,17 +136,17 @@ begin
 
         2:
           begin
-            Result := ShowInfo(Mensagem);
+            Result := ShowWarning(Mensagem);
           end;
 
          3:
           begin
-            Result := ShowInfo(Mensagem);
+            Result := ShowError(Mensagem);
           end;
 
           4:
           begin
-            Result := ShowInfo(Mensagem);
+            Result := ShowQuestion(Mensagem);
           end;
       end;
     finally

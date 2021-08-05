@@ -820,6 +820,41 @@ type
     FDMTAgendaSTATUS: TStringField;
     FDMTAgendaFUNCIONARIO: TIntegerField;
     FDQParametrosCALCULARVALORPRODUTONOSERVICO: TBooleanField;
+    FDQLogin: TFDQuery;
+    FDQLoginCODIGO: TIntegerField;
+    FDQLoginNOME: TStringField;
+    FDQLoginLOGIN: TStringField;
+    FDQLoginSENHA: TStringField;
+    FDQLoginTIPO: TStringField;
+    FDQLoginSTATUS: TStringField;
+    FDQLoginCADASTROCLIENTE: TBooleanField;
+    FDQLoginCADASTROPRODUTO: TBooleanField;
+    FDQLoginCADASTROFORMAPAGTO: TBooleanField;
+    FDQLoginCADASTROGRUPO: TBooleanField;
+    FDQLoginCADASTROSUBGRUPO: TBooleanField;
+    FDQLoginCADASTROFORNECEDOR: TBooleanField;
+    FDQLoginCADASTROFUNCIONARIO: TBooleanField;
+    FDQLoginCADASTROCIDADE: TBooleanField;
+    FDQLoginTELASERVICO: TBooleanField;
+    FDQLoginTELAVENDA: TBooleanField;
+    FDQLoginTELAENTRADAESTOQUE: TBooleanField;
+    FDQLoginTELAAGENDA: TBooleanField;
+    FDQLoginLANCARCONTARECEBER: TBooleanField;
+    FDQLoginRECEBIMENTO: TBooleanField;
+    FDQLoginCONSULTARCONTARECEBER: TBooleanField;
+    FDQLoginLANCARCONTARECEBIDA: TBooleanField;
+    FDQLoginESTORNARCONTARECEBIDA: TBooleanField;
+    FDQLoginCONSULTARCONTARECEBIDA: TBooleanField;
+    FDQLoginCAIXADIARIO: TBooleanField;
+    FDQLoginLANCAMENTOCAIXA: TBooleanField;
+    FDQLoginCADASTROHISTOCAIXA: TBooleanField;
+    FDQLoginLANCARCONTAPAGAR: TBooleanField;
+    FDQLoginPAGAMENTO: TBooleanField;
+    FDQLoginCONSULTACONTAPAGAR: TBooleanField;
+    FDQLoginLANCARCONTAPAGA: TBooleanField;
+    FDQLoginESTORNARCONTAPAGA: TBooleanField;
+    FDQLoginCONSULTACONTAPAGA: TBooleanField;
+    DSLogin: TDataSource;
   private
     { Private declarations }
   public

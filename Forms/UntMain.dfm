@@ -3539,7 +3539,8 @@ inherited FrmMain: TFrmMain
   end
   object TimerAtuInfo: TTimer
     Enabled = False
-    Interval = 10830000
+    Interval = 120000
+    OnTimer = TimerAtuInfoTimer
     Left = 688
     Top = 80
   end

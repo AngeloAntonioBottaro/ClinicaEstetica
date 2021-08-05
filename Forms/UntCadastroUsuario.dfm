@@ -174,7 +174,6 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
           Top = 3
           Width = 359
           Height = 303
-          VertScrollBar.Position = 362
           VertScrollBar.Tracking = True
           Align = alClient
           HeaderFont.Charset = DEFAULT_CHARSET
@@ -185,7 +184,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
           ParentBackground = True
           TabOrder = 0
           object CategoryPanelMovimentacao: TCategoryPanel
-            Top = 1
+            Top = 363
             Height = 300
             Caption = 'Movimentacao'
             TabOrder = 0
@@ -195,7 +194,6 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
               Top = 3
               Width = 332
               Height = 268
-              VertScrollBar.Position = 267
               VertScrollBar.Tracking = True
               Align = alClient
               HeaderFont.Charset = DEFAULT_CHARSET
@@ -205,9 +203,8 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
               HeaderFont.Style = []
               ParentColor = True
               TabOrder = 0
-              ExplicitHeight = 168
               object CategoryPanelCaixa: TCategoryPanel
-                Top = 157
+                Top = 424
                 Height = 109
                 Caption = 'Caixa'
                 TabOrder = 0
@@ -232,7 +229,6 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
                   Align = alTop
                   Caption = '2.3- Historicos '
                   TabOrder = 1
-                  ExplicitTop = 58
                 end
                 object CheckBoxLancamentoCaixa: TCheckBox
                   AlignWithMargins = True
@@ -244,11 +240,10 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
                   Align = alTop
                   Caption = '2.2- Lan'#231'amento Caixa'
                   TabOrder = 2
-                  ExplicitTop = 49
                 end
               end
               object CategoryPanelContaPaga: TCategoryPanel
-                Top = 46
+                Top = 313
                 Height = 111
                 Caption = 'Contas Pagas'
                 TabOrder = 1
@@ -287,7 +282,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
                 end
               end
               object CategoryPanelContaPagar: TCategoryPanel
-                Top = -58
+                Top = 209
                 Height = 104
                 Caption = 'Contas A Pagar'
                 TabOrder = 2
@@ -326,7 +321,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
                 end
               end
               object CategoryPanelContaRecebida: TCategoryPanel
-                Top = -165
+                Top = 102
                 Height = 107
                 Caption = 'Contas Recebidas'
                 TabOrder = 3
@@ -365,7 +360,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
                 end
               end
               object CategoryPanelContaReceber: TCategoryPanel
-                Top = -267
+                Top = 0
                 Height = 102
                 Caption = 'Contas A Receber'
                 TabOrder = 4
@@ -406,7 +401,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
             end
           end
           object CategoryPanelCadastros: TCategoryPanel
-            Top = -225
+            Top = 137
             Height = 226
             Caption = 'Cadastros'
             TabOrder = 1
@@ -500,7 +495,7 @@ inherited FrmCadastroUsuario: TFrmCadastroUsuario
             end
           end
           object CategoryPanelAcessoRapido: TCategoryPanel
-            Top = -362
+            Top = 0
             Height = 137
             Caption = 'Acesso Rapido'
             TabOrder = 2

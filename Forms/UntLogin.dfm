@@ -3161,23 +3161,11 @@ inherited FrmLogin: TFrmLogin
     object EditLogin: TEdit
       Left = 60
       Top = 21
-      Width = 49
+      Width = 200
       Height = 21
       CharCase = ecUpperCase
-      NumbersOnly = True
       TabOrder = 0
       OnExit = EditLoginExit
-    end
-    object ComboBoxLogin: TComboBox
-      Left = 110
-      Top = 21
-      Width = 150
-      Height = 21
-      Style = csDropDownList
-      CharCase = ecUpperCase
-      TabOrder = 1
-      TabStop = False
-      OnSelect = ComboBoxLoginSelect
     end
     object EditSenha: TEdit
       Left = 59
@@ -3186,7 +3174,7 @@ inherited FrmLogin: TFrmLogin
       Height = 21
       CharCase = ecUpperCase
       PasswordChar = '*'
-      TabOrder = 2
+      TabOrder = 1
     end
     object ButtonLogar: TButton
       Left = 180
@@ -3197,7 +3185,7 @@ inherited FrmLogin: TFrmLogin
       ImageAlignment = iaRight
       ImageIndex = 0
       Images = FrmComponentes.ImageListButtons
-      TabOrder = 3
+      TabOrder = 2
       OnClick = ButtonLogarClick
     end
   end

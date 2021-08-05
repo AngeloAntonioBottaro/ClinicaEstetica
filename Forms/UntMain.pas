@@ -163,6 +163,7 @@ type
     procedure N111CadastroClienteEntrePeriodoClick(Sender: TObject);
     procedure N112FichaDoClienteClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure TimerAtuInfoTimer(Sender: TObject);
   private
     FConexao : TControllerFirebase;
     procedure ConectarBanco;
@@ -808,6 +809,11 @@ begin
   FreeAndNil(FrmCadastroCidade);
 end;
 
+procedure TFrmMain.TimerAtuInfoTimer(Sender: TObject);
+begin
+   Self.VerificarMensagem;
+end;
+
 procedure TFrmMain.N2CadastrosProdutosClick(Sender: TObject);
 begin
   if(FrmCadastroProduto = nil)then Application.CreateForm(TFrmCadastroProduto, FrmCadastroProduto);
@@ -829,7 +835,7 @@ begin
 
   if(DM.FDQParametros.FieldByName('HASH').AsString = EmptyStr)then
   begin
-     ShowWarning('Sistema Expirado.' + sLineBreak + 'Favor entrar em contato para fazer a liberaçao do sistema');
+     ShowWarning('Chave de liberação não encontrada.' + sLineBreak + 'Favor entrar em contato para fazer a liberação do sistema');
      FrmMain.Close;
   end;
 
@@ -837,14 +843,14 @@ begin
 
   if DataLibereacao < StrToDate(FormatDateTime('dd/mm/yyyy',Date)) then
   begin
-    ShowWarning('Sistema Expirado.' + sLineBreak + 'Favor entrar em contato para fazer a liberaçao do sistema');
+    ShowWarning('Sistema Expirado.' + sLineBreak + 'Favor entrar em contato para fazer a liberação do sistema');
     FrmMain.Close;
   end;
 
   DiasLiberados := DaysBetween(DataLibereacao, Date);
   if DiasLiberados <= 10 then
-    ShowWarning('Dias até expiração do sistema: ' + DiasLiberados.ToString + sLineBreak +
-                'Favor entrar em contato para fazer a liberaçao do sistema');
+    ShowWarning('Dias até vencimento do sistema: ' + DiasLiberados.ToString + sLineBreak +
+                'Favor entrar em contato para fazer a liberação do sistema');
 
   
   StatusBar.Panels[3].Text := 'Data da Liberação.: ' + DateToStr(DataLibereacao);

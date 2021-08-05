@@ -18,8 +18,8 @@ uses
 
   UntBase,
   UntParametrosSistema,
-  UntBibliotecaFuncoes,
-  UntComponentesGerais;
+  UntComponentesGerais,
+  Exceptions;
 
 type
   TFrmSenha = class(TFrmBase)
@@ -43,29 +43,23 @@ implementation
 
 procedure TFrmSenha.ButtonEntrarClick(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      if EditSenha.Text = EmptyStr then
-        EditSenha.SetFocus;
-
-      if UpperCase(EditSenha.Text) = 'PASSWORD' then
-      begin
-        FrmParametrosSistema.ShowModal;
-        EditSenha.SetFocus;
-      end
-      else
-      begin         
-        Mensagem(1,'Senha Incorreta');
-        EditSenha.Clear;
-        EditSenha.SetFocus;
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
+  if EditSenha.Text = EmptyStr then
+  begin
+    EditSenha.SetFocus;
+    Exit;
   end;
+
+  if UpperCase(EditSenha.Text) <> 'PASSWORD' then
+  begin
+    EditSenha.Clear;
+    EditSenha.SetFocus;
+    raise ExceptionMsg.Create('Senha inválida');
+  end;
+
+  if(FrmParametrosSistema = nil)then Application.CreateForm(TFrmParametrosSistema, FrmParametrosSistema);
+  FrmParametrosSistema.ShowModal;
+  FreeAndNil(FrmParametrosSistema);
+  Self.Close;
 end;
 
 end.

@@ -4093,4 +4093,155 @@ object DM: TDM
       Origin = 'CAIXA'
     end
   end
+  object FDQLogin: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'SELECT * FROM USUARIO')
+    Left = 728
+    Top = 24
+    object FDQLoginCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Origin = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object FDQLoginNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Size = 50
+    end
+    object FDQLoginLOGIN: TStringField
+      FieldName = 'LOGIN'
+      Origin = 'LOGIN'
+      Size = 30
+    end
+    object FDQLoginSENHA: TStringField
+      FieldName = 'SENHA'
+      Origin = 'SENHA'
+      Size = 30
+    end
+    object FDQLoginTIPO: TStringField
+      FieldName = 'TIPO'
+      Origin = 'TIPO'
+      Size = 2
+    end
+    object FDQLoginSTATUS: TStringField
+      FieldName = 'STATUS'
+      Origin = 'STATUS'
+      Size = 10
+    end
+    object FDQLoginCADASTROCLIENTE: TBooleanField
+      FieldName = 'CADASTROCLIENTE'
+      Origin = 'CADASTROCLIENTE'
+    end
+    object FDQLoginCADASTROPRODUTO: TBooleanField
+      FieldName = 'CADASTROPRODUTO'
+      Origin = 'CADASTROPRODUTO'
+    end
+    object FDQLoginCADASTROFORMAPAGTO: TBooleanField
+      FieldName = 'CADASTROFORMAPAGTO'
+      Origin = 'CADASTROFORMAPAGTO'
+    end
+    object FDQLoginCADASTROGRUPO: TBooleanField
+      FieldName = 'CADASTROGRUPO'
+      Origin = 'CADASTROGRUPO'
+    end
+    object FDQLoginCADASTROSUBGRUPO: TBooleanField
+      FieldName = 'CADASTROSUBGRUPO'
+      Origin = 'CADASTROSUBGRUPO'
+    end
+    object FDQLoginCADASTROFORNECEDOR: TBooleanField
+      FieldName = 'CADASTROFORNECEDOR'
+      Origin = 'CADASTROFORNECEDOR'
+    end
+    object FDQLoginCADASTROFUNCIONARIO: TBooleanField
+      FieldName = 'CADASTROFUNCIONARIO'
+      Origin = 'CADASTROFUNCIONARIO'
+    end
+    object FDQLoginCADASTROCIDADE: TBooleanField
+      FieldName = 'CADASTROCIDADE'
+      Origin = 'CADASTROCIDADE'
+    end
+    object FDQLoginTELASERVICO: TBooleanField
+      FieldName = 'TELASERVICO'
+      Origin = 'TELASERVICO'
+    end
+    object FDQLoginTELAVENDA: TBooleanField
+      FieldName = 'TELAVENDA'
+      Origin = 'TELAVENDA'
+    end
+    object FDQLoginTELAENTRADAESTOQUE: TBooleanField
+      FieldName = 'TELAENTRADAESTOQUE'
+      Origin = 'TELAENTRADAESTOQUE'
+    end
+    object FDQLoginTELAAGENDA: TBooleanField
+      FieldName = 'TELAAGENDA'
+      Origin = 'TELAAGENDA'
+    end
+    object FDQLoginLANCARCONTARECEBER: TBooleanField
+      FieldName = 'LANCARCONTARECEBER'
+      Origin = 'LANCARCONTARECEBER'
+    end
+    object FDQLoginRECEBIMENTO: TBooleanField
+      FieldName = 'RECEBIMENTO'
+      Origin = 'RECEBIMENTO'
+    end
+    object FDQLoginCONSULTARCONTARECEBER: TBooleanField
+      FieldName = 'CONSULTARCONTARECEBER'
+      Origin = 'CONSULTARCONTARECEBER'
+    end
+    object FDQLoginLANCARCONTARECEBIDA: TBooleanField
+      FieldName = 'LANCARCONTARECEBIDA'
+      Origin = 'LANCARCONTARECEBIDA'
+    end
+    object FDQLoginESTORNARCONTARECEBIDA: TBooleanField
+      FieldName = 'ESTORNARCONTARECEBIDA'
+      Origin = 'ESTORNARCONTARECEBIDA'
+    end
+    object FDQLoginCONSULTARCONTARECEBIDA: TBooleanField
+      FieldName = 'CONSULTARCONTARECEBIDA'
+      Origin = 'CONSULTARCONTARECEBIDA'
+    end
+    object FDQLoginCAIXADIARIO: TBooleanField
+      FieldName = 'CAIXADIARIO'
+      Origin = 'CAIXADIARIO'
+    end
+    object FDQLoginLANCAMENTOCAIXA: TBooleanField
+      FieldName = 'LANCAMENTOCAIXA'
+      Origin = 'LANCAMENTOCAIXA'
+    end
+    object FDQLoginCADASTROHISTOCAIXA: TBooleanField
+      FieldName = 'CADASTROHISTOCAIXA'
+      Origin = 'CADASTROHISTOCAIXA'
+    end
+    object FDQLoginLANCARCONTAPAGAR: TBooleanField
+      FieldName = 'LANCARCONTAPAGAR'
+      Origin = 'LANCARCONTAPAGAR'
+    end
+    object FDQLoginPAGAMENTO: TBooleanField
+      FieldName = 'PAGAMENTO'
+      Origin = 'PAGAMENTO'
+    end
+    object FDQLoginCONSULTACONTAPAGAR: TBooleanField
+      FieldName = 'CONSULTACONTAPAGAR'
+      Origin = 'CONSULTACONTAPAGAR'
+    end
+    object FDQLoginLANCARCONTAPAGA: TBooleanField
+      FieldName = 'LANCARCONTAPAGA'
+      Origin = 'LANCARCONTAPAGA'
+    end
+    object FDQLoginESTORNARCONTAPAGA: TBooleanField
+      FieldName = 'ESTORNARCONTAPAGA'
+      Origin = 'ESTORNARCONTAPAGA'
+    end
+    object FDQLoginCONSULTACONTAPAGA: TBooleanField
+      FieldName = 'CONSULTACONTAPAGA'
+      Origin = 'CONSULTACONTAPAGA'
+    end
+  end
+  object DSLogin: TDataSource
+    DataSet = FDQLogin
+    Left = 792
+    Top = 24
+  end
 end

@@ -219,6 +219,8 @@ begin
           DM.FDQContadores.Edit;
           DM.FDQContadores.FieldByName('VALOR').AsInteger := ContadorUsuario;
           DM.FDQContadores.Post;
+
+          EditCodigoExit(Self);
         end;
       end
       else

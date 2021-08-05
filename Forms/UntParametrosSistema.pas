@@ -94,64 +94,33 @@ implementation
 
 {$R *.dfm}
 
-uses UntSenha;
-
 procedure TFrmParametrosSistema.ButtonGravarClick(Sender: TObject);
 begin
-  inherited;
-  try
-    try
-      // Salva as alteraçoes
-      DM.FDQParametros.Post;
-      DM.FDQParametros.Refresh;
+  // Salva as alteraçoes
+  DM.FDQParametros.Post;
+  DM.FDQParametros.Refresh;
 
-      Mensagem(1,'Parametros atualizados');
+  Mensagem(1,'Parametros atualizados');
 
-      // Abre novamente para caso quiser fazer outras alteraçoes
-      DM.FDQParametros.Close;
-      DM.FDQParametros.Open;
-      DM.FDQParametros.Edit;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+  // Abre novamente para caso quiser fazer outras alteraçoes
+  DM.FDQParametros.Close;
+  DM.FDQParametros.Open;
+  DM.FDQParametros.Edit;
 end;
 
 procedure TFrmParametrosSistema.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  inherited;
-  try
-    try
-      FrmSenha.EditSenha.Clear;
-      FrmSenha.Close;
-
-      DM.FDQParametros.Close;
-      DM.FDQParametros.Open;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+  DM.FDQParametros.Close;
+  DM.FDQParametros.Open;
 end;
 
 procedure TFrmParametrosSistema.FormShow(Sender: TObject);
 begin
   inherited;
-  try
-    try
-      DM.FDQParametros.Close;
-      DM.FDQParametros.Open;
-      DM.FDQParametros.Edit;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+  DM.FDQParametros.Close;
+  DM.FDQParametros.Open;
+  DM.FDQParametros.Edit;
 end;
 
 end.
