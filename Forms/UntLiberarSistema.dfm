@@ -2,8 +2,8 @@ inherited FrmLiberarSistema: TFrmLiberarSistema
   Caption = 'Liberar Sistema'
   ClientHeight = 170
   ClientWidth = 359
-  ExplicitWidth = 375
-  ExplicitHeight = 209
+  ExplicitWidth = 365
+  ExplicitHeight = 199
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
@@ -29,7 +29,6 @@ inherited FrmLiberarSistema: TFrmLiberarSistema
       Font.Name = 'Calibri'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 20
       ExplicitWidth = 211
     end
     object Label2: TLabel

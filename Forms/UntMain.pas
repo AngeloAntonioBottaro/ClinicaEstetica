@@ -330,10 +330,10 @@ begin
   arquivoini := TIniFile.Create(Utils.MyLibrary.GetAppPath + Utils.MyLibrary.GetAppName + '.ini');
   try
     Caminho := arquivoini.ReadString('Configuracao', 'CAMINHOBANCO', 'ERRO');
-    Banco := arquivoini.ReadString('Configuracao', 'NOMEBANCO', 'ERRO');
-    Ip := arquivoini.ReadString('Configuracao', 'IPBANCO', EmptyStr);
-    Tipo := arquivoini.ReadString('Configuracao', 'TIPO', EmptyStr);
-    Status := arquivoini.ReadString('Configuracao', 'STATUS', EmptyStr);
+    Banco   := arquivoini.ReadString('Configuracao', 'NOMEBANCO', 'ERRO');
+    Ip      := arquivoini.ReadString('Configuracao', 'IPBANCO', EmptyStr);
+    Tipo    := arquivoini.ReadString('Configuracao', 'TIPO', EmptyStr);
+    Status  := arquivoini.ReadString('Configuracao', 'STATUS', EmptyStr);
 
     // Conecta Localmente se for servidor senao tenta conectar pelo ip
     if UpperCase(Tipo) = 'SERVIDOR' then
@@ -351,14 +351,15 @@ begin
     end;
 
     // Conecta ao Banco
-    DM.FDConnection.Connected := True;
+    try
+      DM.FDConnection.Connected := True;
+      if(DM.FDConnection.Connected = False)then raise ExceptionWarning.Create('Banco de dados não conectado');
+    except on E: Exception do
+      Self.CloseModal;
+    end;
 
     // Coloca as informaçoes no statusbar
     StatusBar.Panels[0].Text := 'Caminho do Banco.: ' + Caminho + Banco;
-    StatusBar.Panels[1].Text := 'Status do Banco.: Desconectado';
-
-    if(DM.FDConnection.Connected = False)then raise ExceptionWarning.Create('Banco de dados não conectado');
-
     StatusBar.Panels[1].Text := 'Status do Banco.: Conectado';
 
     // Se for a primeira vez que esta abrindo o sistema ele mostra a tela de atualizaçao

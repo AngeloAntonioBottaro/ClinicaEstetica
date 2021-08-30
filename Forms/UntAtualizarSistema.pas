@@ -3,9 +3,27 @@ unit UntAtualizarSistema;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, FireDAC.Stan.Param, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UntBase, Vcl.ComCtrls, Vcl.StdCtrls,
-  FireDAC.Comp.Client;
+  Winapi.Windows,
+  Winapi.Messages,
+
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ComCtrls,
+  Vcl.StdCtrls,
+
+  UntBase,
+
+  FireDAC.Stan.Param,
+  FireDAC.Comp.Client,
+
+  Utils.MyLibrary,
+  Msg.Controller;
 
 type
   TFrmAtualizarSistema = class(TFrmBase)
@@ -24,6 +42,8 @@ type
     procedure ButtonTestarBancoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
+    Continua : Boolean;
+
     procedure VerificaCampos(NomeTabela: string);
     procedure InsereContador(NomeTabela: string);
     procedure ArrumarPK(NomeTabela: string);
@@ -35,13 +55,12 @@ type
 
 var
   FrmAtualizarSistema: TFrmAtualizarSistema;
-  Continua : Boolean;
 
 implementation
 
 {$R *.dfm}
 
-uses UntComponentesGerais, UntDataModule, UntBibliotecaFuncoes;
+uses UntComponentesGerais, UntDataModule;
 
 procedure TFrmAtualizarSistema.ButtonTestarBancoClick(Sender: TObject);
 Var
@@ -64,7 +83,7 @@ begin
     for I := 0 to MemoTabelas.Lines.Count -1 do
     begin
       if(Continua)then
-        VerificaCampos(MemoTabelas.Lines[I]);
+        Self.VerificaCampos(MemoTabelas.Lines[I]);
     end;
   end;
 
@@ -75,8 +94,8 @@ begin
 
     for I := 0 to MemoTabelas.Lines.Count -1 do
     begin
-      if Continua then
-        InsereContador(UpperCase(MemoTabelas.Lines[I]));
+      if(Continua)then
+        Self.InsereContador(UpperCase(MemoTabelas.Lines[I]));
     end;
   end;
 
@@ -87,13 +106,13 @@ begin
 
     for I := 0 to MemoTabelas.Lines.Count -1 do
     begin
-      if Continua then
-        ArrumarPK(UpperCase(MemoTabelas.Lines[I]));
+      if(Continua)then
+        Self.ArrumarPK(UpperCase(MemoTabelas.Lines[I]));
     end;
   end;
 
   if(ProgressBar.Position = ProgressBar.Max)then
-    Mensagem(1,'Banco Testado Com Sucesso!!');
+    Msg.controller.ShowInfo('Banco testado com sucesso.');
 
   Self.CadastraUsuarioSupervisor;
 end;
@@ -136,12 +155,11 @@ begin
 
     DM.FDQContadores.Post;
 
-
     ProgressBar.Position := ProgressBar.Position +1;
   Except on E:Exception do
     begin
       Continua := False;
-      Mensagem(3,E.ToString);
+      Msg.controller.ShowError(E.ToString);
     end;
   end;
 end;
@@ -168,7 +186,7 @@ begin
       AssignFile(ArqTxt,ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
 
       // Ajusta o ProgressBar
-      NLinhas := QuantasLinhas(ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
+      NLinhas := Utils.MyLibrary.TotalLines(ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
       ProgressBar.Max := NLinhas;
 
       Reset(ArqTxt);
@@ -191,8 +209,9 @@ begin
 
       DeleteFile(ExtractFilePath(Application.ExeName) + '\Atualizacao\' + Memo.Lines[I]);
     end;
-    LabelStatus.Caption := 'Banco de Dados Atualizado';
-    Mensagem(1,'Banco De Dados Atualizado');
+
+    LabelStatus.Caption := 'Banco de dados atualizado';
+    Msg.controller.ShowInfo(LabelStatus.Caption);
   finally
     Memo.Clear;
   end;
@@ -205,7 +224,7 @@ begin
   // Fecha Todas as Querys
   for I := 0 to DM.ComponentCount - 1 do
   begin
-    if DM.Components[I] is TFDQuery then
+    if(DM.Components[I] is TFDQuery)then
       TFDQuery(DM.Components[I]).Close;
   end;
 end;
@@ -251,19 +270,20 @@ begin
   Except on E:Exception do
     begin
       Continua := False;
-      Mensagem(3,E.ToString);
+      Msg.controller.ShowError(E.ToString);
     end;
   end;
 end;
 
 procedure TFrmAtualizarSistema.VerificaCampos(NomeTabela: string);
-Var
+var
  I, J : Integer;
 begin
   try
     Application.ProcessMessages;
 
     LabelStatus.Caption := 'Verificando Campos da Tabela: ' + UpperCase(NomeTabela);
+
     // Pega todos os campos que tem no banco
     DM.FDQAuxiliar.Close;
     DM.FDQAuxiliar.SQL.Text := 'SELECT RDB$RELATION_NAME, RDB$FIELD_NAME FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = :TABELA';
@@ -284,7 +304,9 @@ begin
             // Se nao achar o campo
             if not(DM.FDQAuxiliar.Locate('RDB$FIELD_NAME', TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName,[]))then
             begin
-              Mensagem(2,'Campo não Encontrado!!' + sLineBreak + 'Tabela:' + NomeTabela + sLineBreak + 'Campo: ' + TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName);
+              Msg.controller.ShowWarning('Campo não encontrado.' + sLineBreak +
+                                       'Tabela:' + NomeTabela + sLineBreak +
+                                       'Campo: ' + TFDQuery(DM.Components[I]).Fields.Fields[J].FieldName);
               Continua := False;
             end;
 
@@ -295,7 +317,7 @@ begin
       end;
     end;
   Except on E:Exception do
-    Mensagem(3,E.ToString);
+    Msg.controller.ShowError(E.ToString);
   end;
 end;
 

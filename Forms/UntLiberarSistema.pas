@@ -3,8 +3,22 @@ unit UntLiberarSistema;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UntBase, Vcl.StdCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+
+  System.Variants,
+  System.Classes,
+  System.SysUtils,
+
+  UntBase,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+
+  Msg.Controller;
 
 type
   TFrmLiberarSistema = class(TFrmBase)
@@ -27,35 +41,27 @@ implementation
 
 {$R *.dfm}
 
-uses UntDataModule, UntComponentesGerais, System.SysUtils, UntBibliotecaFuncoes;
+uses UntDataModule, UntComponentesGerais, UntBibliotecaFuncoes;
 
 procedure TFrmLiberarSistema.ButtonLiberarSistemaClick(Sender: TObject);
-var
-  day : TDate;
 begin
   inherited;
   try
-    try
-      if (EditCodigoHash.Text = EmptyStr) or (Length(EditCodigoHash.Text) <> 24) then
-      begin
-        EditCodigoHash.SetFocus;
-        Exit;
-      end;
-
-      day := StrToDate(DecryptData(EditCodigoHash.Text));
-
-      DM.FDQParametros.Edit;
-      DM.FDQParametros.FieldByName('HASH').AsString := EditCodigoHash.Text;
-      DM.FDQParametros.Post;
-
-      EditCodigoHash.Clear;
-
-      Mensagem(1,'Sistema Liberado até dia: ' + DateToStr(day));
-    finally
-
+    if(EditCodigoHash.Text = EmptyStr)or(Length(EditCodigoHash.Text) <> 24)then
+    begin
+      EditCodigoHash.SetFocus;
+      Exit;
     end;
+
+    DM.FDQParametros.Edit;
+    DM.FDQParametros.FieldByName('HASH').AsString := EditCodigoHash.Text;
+    DM.FDQParametros.Post;
+
+    EditCodigoHash.Clear;
+
+    Msg.controller.ShowInfo('Sistema Liberado até dia: ' + DecryptData(EditCodigoHash.Text));
   Except on E:Exception do
-    Mensagem(3,E.ToString);
+    Msg.controller.ShowError(E.ToString);
   end;
 end;
 

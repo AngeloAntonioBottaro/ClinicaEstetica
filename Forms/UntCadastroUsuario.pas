@@ -20,17 +20,21 @@ uses
   Vcl.Dialogs,
   Vcl.Bind.Editors,
   Vcl.Bind.DBEngExt,
+  Vcl.CheckLst,
+  Vcl.CategoryButtons, Vcl.ExtCtrls,
 
   FireDAC.Stan.Param,
 
   UntBase,
-  UntBibliotecaFuncoes,
   UntComponentesGerais,
   UntDataModule,
 
+  Data.DB,
   Data.Bind.EngExt,
   Data.Bind.Components,
-  Data.Bind.DBScope, Vcl.CheckLst, Vcl.CategoryButtons, Vcl.ExtCtrls;
+  Data.Bind.DBScope,
+
+  Msg.controller;
 
 type
   TFrmCadastroUsuario = class(TFrmBase)
@@ -149,25 +153,21 @@ procedure TFrmCadastroUsuario.ButtonAdicionarClick(Sender: TObject);
 begin
   inherited;
   try
-    try
-      // Define a pagina ativa do page control
-      PageControl.ActivePageIndex := 0;
-      CategoryPanelGroup1.CollapseAll;
-      CategoryPanelGroup2.CollapseAll;
+    // Define a pagina ativa do page control
+    PageControl.ActivePageIndex := 0;
+    CategoryPanelGroup1.CollapseAll;
+    CategoryPanelGroup2.CollapseAll;
 
-      FecharQuerys;
+    Self.FecharQuerys;
 
-      DM.FDQUsuario.Open;
-      DM.FDQUsuario.Insert;
+    DM.FDQUsuario.Open;
+    DM.FDQUsuario.Insert;
 
-      LimparCampos;
+    Self.LimparCampos;
 
-      EditNome.SetFocus;
-    finally
-
-    end;
+    EditNome.SetFocus;
   Except on E:Exception do
-    Mensagem(3,E.ToString);
+    Msg.controller.ShowError(E.ToString);
   end;
 end;
 
@@ -177,177 +177,130 @@ var
 begin
   inherited;
   try
-    try
-      if EditLogin.Text = EmptyStr then
-      begin
-        EditLogin.SetFocus;
-        Mensagem(2,'Login obrigatorio');
-        Exit;
-      end;
-
-      if EditSenha.Text = EmptyStr then
-      begin
-        EditSenha.SetFocus;
-        Mensagem(2,'Senha obrigatoria');
-        Exit;
-      end;
-
-      DM.FDQUsuario.FieldByName('TIPO').AsInteger := ComboBoxTipo.ItemIndex +1;
-
-      // Verifica se esta cadastrando ou atualizando
-      if EditCodigo.Text = EmptyStr then
-      begin
-        if VerificaUsuarioCadastrado then
-        begin
-          if ComboBoxStatus.Text = EmptyStr then
-           DM.FDQUsuario.FieldByName('STATUS').AsString := 'ATIVO'
-          else
-           DM.FDQUsuario.FieldByName('STATUS').AsString := ComboBoxStatus.Text;
-
-          // Abre a query dos contadores
-          DM.FDQContadores.Close;
-          DM.FDQContadores.Open;
-          DM.FDQContadores.Locate('TABELA','USUARIO',[]);
-          ContadorUsuario := DM.FDQContadores.FieldByName('VALOR').AsInteger + 1;
-
-          DM.FDQUsuario.FieldByName('CODIGO').AsInteger := ContadorUsuario;
-
-          DM.FDQUsuario.Post;
-          Mensagem(1,'Usuario cadastrado com sucesso');
-
-          // Atualiza os contadores
-          DM.FDQContadores.Edit;
-          DM.FDQContadores.FieldByName('VALOR').AsInteger := ContadorUsuario;
-          DM.FDQContadores.Post;
-
-          EditCodigoExit(Self);
-        end;
-      end
-      else
-      begin
-        DM.FDQUsuario.Post;
-        DM.FDQUsuario.Edit;
-        Mensagem(1,'Usuario atualizado com sucesso');
-      end;
-    finally
-
+    if(Trim(EditLogin.Text) = EmptyStr)then
+    begin
+      EditLogin.SetFocus;
+      Msg.controller.ShowWarning('Login obrigatório');
+      Exit;
     end;
+
+    if(Trim(EditSenha.Text) = EmptyStr)then
+    begin
+      EditSenha.SetFocus;
+      Msg.controller.ShowWarning('Senha obrigatoria');
+      Exit;
+    end;
+
+    DM.FDQUsuario.FieldByName('TIPO').AsInteger := ComboBoxTipo.ItemIndex +1;
+
+    // Verifica se esta cadastrando ou atualizando
+    if(Self.VerificaUsuarioCadastrado)then
+    begin
+       DM.FDQUsuario.FieldByName('STATUS').AsString := ComboBoxStatus.Text;
+
+       if(ComboBoxStatus.Text = EmptyStr)then
+          DM.FDQUsuario.FieldByName('STATUS').AsString := 'ATIVO';
+
+       // Abre a query dos contadores
+       DM.FDQContadores.Close;
+       DM.FDQContadores.Open;
+       DM.FDQContadores.Locate('TABELA','USUARIO',[]);
+
+       ContadorUsuario := DM.FDQContadores.FieldByName('VALOR').AsInteger + 1;
+
+       DM.FDQContadores.Edit;
+       DM.FDQContadores.FieldByName('VALOR').AsInteger := ContadorUsuario;
+       DM.FDQContadores.Post;
+
+       DM.FDQUsuario.FieldByName('CODIGO').AsInteger   := ContadorUsuario;
+    end;
+
+    if(DM.FDQUsuario.State in [dsInsert, dsEdit])then
+       DM.FDQUsuario.Post;
+
+    Self.EditCodigoExit(Self);
+
+    Msg.controller.ShowInfo('Gravação realizada com sucesso');
   Except on E:Exception do
-    Mensagem(3,E.ToString);
+    Msg.controller.ShowError(E.ToString);
   end;
 end;
 
 procedure TFrmCadastroUsuario.EditCodigoExit(Sender: TObject);
-var
-  CodUsu : string;
 begin
   inherited;
-  try
-    try
-      if not (EditCodigo.Text = EmptyStr) then
-      begin
-        CodUsu := EditCodigo.Text;
 
-        FecharQuerys;
-        LimparCampos;
-        DM.FDQUsuario.Open;
+  if(EditCodigo.Text = EmptyStr)then Exit;
 
-        if DM.FDQUsuario.Locate('CODIGO',CodUsu,[]) then
-        begin
-          DM.FDQUsuario.Edit;
-          ComboBoxTipo.ItemIndex := DM.FDQUsuario.FieldByName('TIPO').AsInteger -1;
-        end
-        else
-          ButtonAdicionarClick(Sender);
-      end;
-    finally
+  FecharQuerys;
+  LimparCampos;
+  DM.FDQUsuario.Open;
 
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
+  if(DM.FDQUsuario.Locate('CODIGO', EditCodigo.Text, []))then
+  begin
+    DM.FDQUsuario.Edit;
+    ComboBoxTipo.ItemIndex := DM.FDQUsuario.FieldByName('TIPO').AsInteger -1;
+    Exit;
   end;
+
+  ButtonAdicionarClick(Sender);
 end;
 
 procedure TFrmCadastroUsuario.FecharQuerys;
 begin
   try
-    try
-      DM.FDQUsuario.Close;
-      DM.FDQContadores.Close;
-      DM.FDQConsulta.Close;
-    finally
-
-    end;
+    DM.FDQUsuario.Close;
+    DM.FDQContadores.Close;
+    DM.FDQConsulta.Close;
   Except on E:Exception do
-    Mensagem(3,E.ToString);
+    Msg.controller.ShowError(E.ToString);
   end;
 end;
 
 procedure TFrmCadastroUsuario.FormShow(Sender: TObject);
 begin
   inherited;
-  try
-    try
-      ButtonAdicionarClick(Sender);
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+  ButtonAdicionar.Click;
 end;
 
 procedure TFrmCadastroUsuario.LimparCampos;
 var
   I : Integer;
 begin
-  try
-    try
-      for I := 0 to FrmCadastroUsuario.ComponentCount - 1 do
-      begin
-        if Components[i] is TEdit then
-          TEdit(FrmCadastroUsuario.Components[i]).Clear;
-        if Components[i] is TCheckBox then
-          TCheckBox(FrmCadastroUsuario.Components[i]).Checked := False;
-        if Components[i] is TComboBox then
-          TComboBox(FrmCadastroUsuario.Components[i]).ItemIndex := -1;
-      end;
-    finally
-
-    end;
-  Except on E:Exception do
-    Mensagem(3,E.ToString);
-  end;
+   for I := 0 to FrmCadastroUsuario.ComponentCount - 1 do
+   begin
+     if Components[i] is TEdit then
+       TEdit(FrmCadastroUsuario.Components[i]).Clear;
+     if Components[i] is TCheckBox then
+       TCheckBox(FrmCadastroUsuario.Components[i]).Checked := False;
+     if Components[i] is TComboBox then
+       TComboBox(FrmCadastroUsuario.Components[i]).ItemIndex := -1;
+   end;
 end;
 
 function TFrmCadastroUsuario.VerificaUsuarioCadastrado: Boolean;
 begin
   try
-    try
-      // Consulta o usuario para ver se ja esta cadastrado
-      DM.FDQConsulta.Close;
-      DM.FDQConsulta.SQL.Text := 'SELECT * FROM USUARIO WHERE LOGIN = :LOGIN AND SENHA = :SENHA';
-      DM.FDQConsulta.Params.ParamByName('LOGIN').AsString := EditLogin.Text;
-      DM.FDQConsulta.Params.ParamByName('SENHA').AsString := EditSenha.Text;
-      DM.FDQConsulta.Open;
+    // Consulta o usuario para ver se ja esta cadastrado
+    DM.FDQConsulta.Close;
+    DM.FDQConsulta.SQL.Text := 'SELECT * FROM USUARIO WHERE LOGIN = :LOGIN AND SENHA = :SENHA';
+    DM.FDQConsulta.Params.ParamByName('LOGIN').AsString := EditLogin.Text;
+    DM.FDQConsulta.Params.ParamByName('SENHA').AsString := EditSenha.Text;
+    DM.FDQConsulta.Open;
 
-      // Se a consulta estiver vazia é porque nao tem o cliente cadastrado
-      if DM.FDQConsulta.Eof then
-      begin
-        Result := True
-      end
-      else
-      begin
-        Mensagem(2,'Usuario já cadastrado' + sLineBreak + 'Codigo do usuario: ' + DM.FDQConsulta.FieldByName('CODIGO').AsString);
-        Result := False;
-      end;
-    finally
+    // Se a consulta estiver vazia é porque nao tem o cliente cadastrado
+    Result := True;
 
+    if not(DM.FDQConsulta.IsEmpty)then
+    begin
+      Msg.controller.ShowWarning('Usuario já cadastrado' + sLineBreak +
+                                 'Código do usuario: ' + DM.FDQConsulta.FieldByName('CODIGO').AsString);
+      Result := False;
     end;
   Except on E:Exception do
     begin
-      Mensagem(3,E.ToString);
-      Result := False;
+       Msg.controller.ShowError(E.ToString);
+       Result := False;
     end;
   end;
 end;
